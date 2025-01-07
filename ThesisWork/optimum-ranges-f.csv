@@ -1,0 +1,32 @@
+Species, Temperature Range Preferendum,Optimum Range Lower,Optimum Range Upper
+Lake Sturgeon,52,None,None
+Lake Trout,53,39,64
+"Cisco,  Lake Herring",54,None,None
+Whitefish,55,None,None
+Pink Salmon,55,42,58
+Sockeye and Kokanee Salmon,57,41,63
+Sockeye Salmon,57,None,None
+Chinook Salmon,57,53,60
+Chum Salmon,57,47,60
+Coho Salmon,58,39,57
+Brook Trout,59,52,61
+Cutthroat Trout,59,48,54
+Altantic Salmon,60,54,59
+Rainbow Trout and Steelhead,60,54,64
+Brown Trout,60,54,66
+Yellow Perch,64,64,78
+White Crappie,66,32,32
+Sauger,67,70,73
+Striped Bass (Anadromous),,61,77
+Northern Pike,69,75,79
+Walleye,73,72,73
+White Sucker,74,74,78
+Black Crappie,74,66,75
+Smallmouth Bass,77,79,88
+Muskellunge,78,None,None
+White Bass,81,66,82
+Channel Catfish,81,84,87
+Carp,82,84,90
+Largemouth Bass,83,77,90
+Spotted Bass,None,84,87
+Bluegill,86,None,None
