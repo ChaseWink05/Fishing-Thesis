@@ -5,7 +5,7 @@ import pandas as pd
 import os
 import sys
 import re
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt  
 
 #This segment checks if Streamlit is already running. If it's not, it sets an environment variable called
 #STREAMLIT_RUNNING to indicate that Streamlit should be started. It then creates a command to run Streamlit 
