@@ -7,7 +7,6 @@ import sys
 import re
 import matplotlib.pyplot as plt
 import subprocess
-import streamlit.web.cli as stcli
 import requests
 
 #This segment checks if Streamlit is already running. If it's not, it sets an environment variable called
