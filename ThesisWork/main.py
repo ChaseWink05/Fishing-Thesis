@@ -5,7 +5,10 @@ import pandas as pd
 import os
 import sys
 import re
-import matplotlib.pyplot as plt  
+import matplotlib.pyplot as plt
+import subprocess
+import streamlit.web.cli as stcli
+import requests
 
 #This segment checks if Streamlit is already running. If it's not, it sets an environment variable called
 #STREAMLIT_RUNNING to indicate that Streamlit should be started. It then creates a command to run Streamlit 
@@ -15,15 +18,85 @@ import matplotlib.pyplot as plt
 #where everytime I wanted to run this program I had to type in streamlit run in the terminal. This was my work around
 #to make it where I didn't have to do that everytime and so that it is more user friendly.
 
+if __name__ == "__main__":  # Check if the script is being run directly
+    try:
+        import streamlit  # Attempt to import the Streamlit library
+    except ModuleNotFoundError:  # If Streamlit is not found
+        print("Streamlit not found! Please ensure it's bundled correctly.")  # Display an error message
+        sys.exit(1)  # Exit the program with an error code
 
-if __name__ == "__main__":
-    if not os.getenv("STREAMLIT_RUNNING"):  # Custom environment variable
-        os.environ["STREAMLIT_RUNNING"] = "true"
-        #This is the command that lets us run streamlit run without having to type it over and over again
-        command = f"streamlit run {sys.argv[0]}"
-        os.system(command)
-        sys.exit()
+    # Check if the script is already running under Streamlit
+    if not os.getenv("STREAMLIT_RUNNING"):  # Check if the STREAMLIT_RUNNING environment variable is not set
+        os.environ["STREAMLIT_RUNNING"] = "true"  # Set the STREAMLIT_RUNNING environment variable to "true" to flag the app as running
         
+        # Get the base path for the executable or the script
+        if getattr(sys, 'frozen', False):  # Check if the script is frozen (bundled as an executable)
+            base_path = sys._MEIPASS  # This is where bundled files are located
+        else:
+            base_path = os.path.dirname(__file__)  # Use the directory where the current script is located
+
+        app_file = os.path.join(base_path, "main.py")  # Create the full path to the main.py file
+
+        if not os.path.exists(app_file):  # Check if the main.py file exists
+            print(f"Error: App file not found: {app_file}")  # Display an error message if the file is missing
+            sys.exit(1)  # Exit the program with an error code
+
+        # Run Streamlit using subprocess
+        command = f"streamlit run {app_file}"  # Create the command to run the Streamlit app
+        subprocess.run(command, shell=True)  # Execute the command in the shell
+        sys.exit()  # Exit the program after running Streamlit
+
+# Your WeatherAPI key
+api_key = "709d293f36ae43b0b1d212215250801"
+
+# Function to get weather data from WeatherAPI.com
+def get_weather():
+    # Sarasota County, FL coordinates
+    latitude = 27.384781315287853
+    longitude = -82.55692362785341
+
+    # WeatherAPI.com URL from documentation
+    url = f"http://api.weatherapi.com/v1/current.json?key={api_key}&q={latitude},{longitude}&aqi=no"
+
+    try:
+        # Send GET request to WeatherAPI to fetch weather data
+        response = requests.get(url)
+        
+        # If response is successful, process the JSON data
+        data = response.json()  # Converts the response to a Python dictionary
+
+        # Extract relevant weather data through the nested JSON dictornary that we created
+        #Referenced documentation to figure this bit out 
+        weather_description = data['current']['condition']['text']  # Weather condition 
+        temperature = data['current']['temp_f']  # Temperature in Fahrenheit
+        humidity = data['current']['humidity']  # Humidity percentage
+        wind_speed = data['current']['wind_mph']  # Wind speed in miles per hour
+
+        # Return the extracted data as a tuple
+        return weather_description, temperature, humidity, wind_speed
+
+    except requests.exceptions.RequestException as e:
+        # If there is any errors, display it
+        st.error(f"Error fetching weather data: {e}")
+        return None
+
+# Fetch weather data for Sarasota County, should look like this ex. ("Clear sky", 75, 50, 10)
+weather_data = get_weather()
+
+# Check if weather data was successfully retrieved
+if weather_data:
+    # Unpack the weather data if it was successfully fetched in a variable 
+    weather_description, temperature, humidity, wind_speed = weather_data
+     # Display in a visually appealing format
+    st.markdown("## 🌤️ Current Weather for Sarasota County, FL")
+    st.write(f"Weather: {weather_description}")
+    st.write(f"Temperature: {temperature}°F")
+    st.write(f"Humidity: {humidity}%")
+    st.write(f"Wind Speed: {wind_speed} mph")
+else:
+    # If the data wasn't fetched, display an error message
+    st.error("Could not retrieve weather data.")
+
 
 #This segement is trying to load data from a file called trip_data.csv. If the file exists, it reads the information
 #inside and stores it in the program. However, if the file doesnt exist, it creates a new, empty table with 
@@ -32,31 +105,26 @@ if __name__ == "__main__":
 #code this way so that it allows the user to always be able to run this program even if they do not have a csv called 
 #"trip_data" on their laptop making it more user friendly 
 
-# Initialize data storage
-data_file = "trip_data.csv"
 
-# Load existing data if available
+# Path to the correct file location (for the bundled executable)
+if getattr(sys, 'frozen', False):  # Check if running as a packaged executable
+    data_file = os.path.join(sys._MEIPASS, 'trip_data.csv')
+else:  # Running as a script during development
+    data_file = "trip_data.csv"  # You can change this to a specific path if needed
+
+# Initialize data storage
 try:
     existing_data = pd.read_csv(data_file)
-#if we couldnt find it then make an empty table to hold data that the user will input in the future
 except FileNotFoundError:
-    #DataFrame allows us to store and manipulate data in a table format, where each column can contain different data types 
-    #Similar to excel. Used this from the pandas libaray, makes it way easier because is was made to be easier
+    # DataFrame allows us to store and manipulate data in a table format, like Excel
     existing_data = pd.DataFrame(
         columns=["ID", "Latitude", "Longitude", "Time", "Weather", "Type of Fish", "Weight", "Lure"]
     )
 
-
-
 # If no ID column exists, add one and re-save the data
 if "ID" not in existing_data.columns:
-    #len(existing_data) returns the number of rows in the DataFrame
-    #we use range because we want to create a range of numbers from 1 all the way up to the amount of rows that are in existingdata
-    #That way we can have a number corresponding to each row for our entires
     existing_data["ID"] = range(1, len(existing_data) + 1)
-    #Here we are saving the DataFrame to the trip_data.csv that way we can update it and keep track
-    #The reason why we are setting the index = false is because without it automatically it displays a row keeping track
-    #of the rows but since we already did that with the id column we set it to false to not display this so we elimate useless data
+    # Save the DataFrame to the trip_data.csv file
     existing_data.to_csv(data_file, index=False)
 
 #This is where I start making what the user will see on the browser, here I use st which is my streamlit package and
@@ -276,9 +344,11 @@ if not existing_data.empty:
         st.session_state.refresh = True  # Refresh the app after deletion to update the changes
 
 
-#Doing a check to make sure the csv is in the desktop
-# Path to the correct file location 
-destination_file = os.path.expanduser("~/Desktop/ThesisWork/optimum-ranges-f.csv")
+# Path to the correct file location (for the bundled executable)
+if getattr(sys, 'frozen', False):  # Check if running as a packaged executable
+    destination_file = os.path.join(sys._MEIPASS, 'optimum-ranges-f.csv')
+else:  # Running as a script during development
+    destination_file = os.path.expanduser("~/Desktop/ThesisWork/optimum-ranges-f.csv")
 
 # Doing a simple check to see if the file is in the right location
 if not os.path.exists(destination_file):
@@ -308,7 +378,7 @@ if os.path.exists(destination_file):  # Check again if the file exists
         plt.xticks(rotation=45, ha='right')  # Rotate x-axis labels for better readability
         st.pyplot(plt)  # Display the plot in the Streamlit app
     else:
-        #If the necessary columns are missing, show an error
+        # If the necessary columns are missing, show an error
         st.error("The CSV file does not have the expected columns: 'Species' and 'Temperature Range Preferendum'.")
 
 #This triggers a refresh of the app's data when certain conditions are met, without having to manually interact with the app.
