@@ -17,33 +17,13 @@ import requests
 #where everytime I wanted to run this program I had to type in streamlit run in the terminal. This was my work around
 #to make it where I didn't have to do that everytime and so that it is more user friendly.
 
-if __name__ == "__main__":  # Check if the script is being run directly
-    try:
-        import streamlit  # Attempt to import the Streamlit library
-    except ModuleNotFoundError:  # If Streamlit is not found
-        print("Streamlit not found! Please ensure it's bundled correctly.")  # Display an error message
-        sys.exit(1)  # Exit the program with an error code
-
-    # Check if the script is already running under Streamlit
-    if not os.getenv("STREAMLIT_RUNNING"):  # Check if the STREAMLIT_RUNNING environment variable is not set
-        os.environ["STREAMLIT_RUNNING"] = "true"  # Set the STREAMLIT_RUNNING environment variable to "true" to flag the app as running
-        
-        # Get the base path for the executable or the script
-        if getattr(sys, 'frozen', False):  # Check if the script is frozen (bundled as an executable)
-            base_path = sys._MEIPASS  # This is where bundled files are located
-        else:
-            base_path = os.path.dirname(__file__)  # Use the directory where the current script is located
-
-        app_file = os.path.join(base_path, "main.py")  # Create the full path to the main.py file
-
-        if not os.path.exists(app_file):  # Check if the main.py file exists
-            print(f"Error: App file not found: {app_file}")  # Display an error message if the file is missing
-            sys.exit(1)  # Exit the program with an error code
-
-        # Run Streamlit using subprocess
-        command = f"streamlit run {app_file}"  # Create the command to run the Streamlit app
-        subprocess.run(command, shell=True)  # Execute the command in the shell
-        sys.exit()  # Exit the program after running Streamlit
+if __name__ == "__main__":
+    if not os.getenv("STREAMLIT_RUNNING"):  # Custom environment variable
+        os.environ["STREAMLIT_RUNNING"] = "true"
+        #This is the command that lets us run streamlit run without having to type it over and over again
+        command = f"streamlit run {sys.argv[0]}"
+        os.system(command)
+        sys.exit()
 
 # Your WeatherAPI key
 api_key = "709d293f36ae43b0b1d212215250801"
