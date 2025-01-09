@@ -342,12 +342,8 @@ if not existing_data.empty:
         st.success("Entry deleted!")
         st.session_state.refresh = True  # Refresh the app after deletion to update the changes
 
-
-# Path to the correct file location (for the bundled executable)
-if getattr(sys, 'frozen', False):  # Check if running as a packaged executable
-    destination_file = os.path.join(sys._MEIPASS, 'optimum-ranges-f.csv')
-else:  # Running as a script during development
-    destination_file = os.path.expanduser("~/Desktop/ThesisWork/optimum-ranges-f.csv")
+# Path to the correct file location for GitHub and Streamlit Cloud
+destination_file = os.path.join('ThesisWork', 'optimum-ranges-f.csv')
 
 # Doing a simple check to see if the file is in the right location
 if not os.path.exists(destination_file):
