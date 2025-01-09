@@ -87,7 +87,7 @@ if weather_data:
     # Unpack the weather data if it was successfully fetched in a variable 
     weather_description, temperature, humidity, wind_speed = weather_data
      # Display in a visually appealing format
-    st.markdown("## 🌤️ Current Weather for Sarasota County, FL")
+    #st.markdown("## 🌤️ Current Weather for Sarasota County, FL")
     st.write(f"Weather: {weather_description}")
     st.write(f"Temperature: {temperature}°F")
     st.write(f"Humidity: {humidity}%")
