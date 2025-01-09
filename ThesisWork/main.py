@@ -6,7 +6,6 @@ import os
 import sys
 import re
 import matplotlib.pyplot as plt
-import subprocess
 import requests
 
 #This segment checks if Streamlit is already running. If it's not, it sets an environment variable called
@@ -85,11 +84,7 @@ else:
 #"trip_data" on their laptop making it more user friendly 
 
 
-# Path to the correct file location (for the bundled executable)
-if getattr(sys, 'frozen', False):  # Check if running as a packaged executable
-    data_file = os.path.join(sys._MEIPASS, 'trip_data.csv')
-else:  # Running as a script during development
-    data_file = "trip_data.csv"  # You can change this to a specific path if needed
+data_file = "trip_data.csv"  
 
 # Initialize data storage
 try:
