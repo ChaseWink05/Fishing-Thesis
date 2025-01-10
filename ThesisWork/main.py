@@ -49,9 +49,10 @@ def get_weather():
         temperature = data['current']['temp_f']  # Temperature in Fahrenheit
         humidity = data['current']['humidity']  # Humidity percentage
         wind_speed = data['current']['wind_mph']  # Wind speed in miles per hour
+        last_updated = data['current']['last_updated']  # Last updated timestamp
 
         # Return the extracted data as a tuple
-        return weather_description, temperature, humidity, wind_speed
+        return weather_description, temperature, humidity, wind_speed, last_updated
 
     except requests.exceptions.RequestException as e:
         # If there is any errors, display it
@@ -64,13 +65,14 @@ weather_data = get_weather()
 # Check if weather data was successfully retrieved
 if weather_data:
     # Unpack the weather data if it was successfully fetched in a variable 
-    weather_description, temperature, humidity, wind_speed = weather_data
+    weather_description, temperature, humidity, wind_speed, last_updated = weather_data
      # Display in a visually appealing format
     st.markdown("## 🌤️ Current Weather for Sarasota County, FL")
     st.write(f"Weather: {weather_description}")
     st.write(f"Temperature: {temperature}°F")
     st.write(f"Humidity: {humidity}%")
     st.write(f"Wind Speed: {wind_speed} mph")
+    st.write(f"**Last Updated:** {last_updated}")
 else:
     # If the data wasn't fetched, display an error message
     st.error("Could not retrieve weather data.")
