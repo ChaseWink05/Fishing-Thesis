@@ -71,8 +71,8 @@ if weather_data:
     st.write(f"Weather: {weather_description}")
     st.write(f"🌡️ Temperature: {temperature}°F")
     st.write(f"💧 Humidity: {humidity}%")
-        st.write(f"🌬️ Wind Speed: {wind_speed} mph")
-        st.write(f"🌤️ Weather Condition: {weather_description}")
+    st.write(f"🌬️ Wind Speed: {wind_speed} mph")
+    st.write(f"🌤️ Weather Condition: {weather_description}")
     st.write(f"**Last Updated:** {last_updated}")
 else:
     # If the data wasn't fetched, display an error message
