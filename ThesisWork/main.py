@@ -69,9 +69,10 @@ if weather_data:
      # Display in a visually appealing format
     st.markdown("## 🌤️ Current Weather for Sarasota County, FL")
     st.write(f"Weather: {weather_description}")
-    st.write(f"Temperature: {temperature}°F")
-    st.write(f"Humidity: {humidity}%")
-    st.write(f"Wind Speed: {wind_speed} mph")
+    st.write(f"🌡️ Temperature: {temperature}°F")
+    st.write(f"💧 Humidity: {humidity}%")
+    st.write(f"🌬️ Wind Speed: {wind_speed} mph")
+    st.write(f"🌤️ Weather Condition: {weather_description}")
     st.write(f"**Last Updated:** {last_updated}")
 else:
     # If the data wasn't fetched, display an error message
