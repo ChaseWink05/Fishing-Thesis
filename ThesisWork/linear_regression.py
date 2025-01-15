@@ -3,17 +3,17 @@ import pandas as pd
 import statsmodels.api as sm
 import matplotlib.pyplot as plt
 
-# Load your dataset
+# Loading the dataset
 file_path = 'C:\\Users\\c.wink27\\Downloads\\ps_2023_csv\\catch_20231.csv'
 catch_data = pd.read_csv(file_path)
 
-# Filter the data for rows with valid length and weight values (no missing or zero values)
+# Filter the data for rows with valid length and weight values 
 filtered_data = catch_data[(catch_data['tot_len_a'] > 0) & (catch_data['wgt_a'] > 0)]
 
-# Independent variable: length (tot_len_a), adding a constant for intercept in the model
+# Independent variable, adding a constant for intercept in the model
 X = sm.add_constant(filtered_data['tot_len_a'])
 
-# Dependent variable: weight (wgt_a)
+# Dependent variable
 y = filtered_data['wgt_a']
 
 # Fit the linear regression model

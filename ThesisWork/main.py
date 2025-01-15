@@ -252,7 +252,6 @@ def display_bar_chart():
         st.error("The CSV file does not have the expected columns: 'Species' and 'Temperature Range Preferendum'.")
 
 def main():
-    #works
     ensure_streamlit_running()
 
     # Load weather data and initialize map
@@ -274,7 +273,6 @@ def main():
         st.error("Could not retrieve weather data.")
 
     existing_data = initialize_data(data_file)
-    #Havent got to yet
     st.subheader("Interactive Map")
     map_obj = create_map(existing_data)
     handle_map_click(map_obj)
