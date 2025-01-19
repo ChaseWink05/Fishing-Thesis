@@ -288,7 +288,7 @@ def linear_regression():
     plt.ylabel('Fish Weight (kg)')
     plt.legend()
     plt.grid(True)
-    plt.show()
+    st.pyplot(plt)
 
 
 def main():
