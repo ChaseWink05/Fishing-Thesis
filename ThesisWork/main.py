@@ -7,6 +7,8 @@ import sys
 import re
 import matplotlib.pyplot as plt
 import requests
+import linear_regression as lr
+
 
 #This segment checks if Streamlit is already running. If it's not, it sets an environment variable called
 #STREAMLIT_RUNNING to indicate that Streamlit should be started. It then creates a command to run Streamlit 
@@ -287,6 +289,7 @@ def main():
         st.subheader("Existing Trip Data")
         st.markdown(existing_data.reset_index(drop=True).to_html(index=False, escape=False), unsafe_allow_html=True)
     display_bar_chart()
+    lr.run()
 
 if __name__ == "__main__":
     main()
