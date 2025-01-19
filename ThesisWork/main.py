@@ -254,11 +254,11 @@ def display_bar_chart():
 # Loading the dataset
 def linear_regression():
     # Define the path to the CSV file in the GitHub/Streamlit environment
-    destination_file = os.path.join('ThesisWork', 'catch_20231.csv')
+    destination_file = os.path.join('ThesisWork', 'catch_20236.csv')
 
     # Check if the file exists
     if not os.path.exists(destination_file):
-        st.error(f"Error: The file 'catch_20231.csv' is missing in the 'ThesisWork' folder.")
+        st.error(f"Error: The file 'catch_20236.csv' is missing in the 'ThesisWork' folder.")
         st.write("Please make sure the CSV file is placed in the 'ThesisWork' folder and try again.")
     else:
         # If the file exists, read the CSV data
