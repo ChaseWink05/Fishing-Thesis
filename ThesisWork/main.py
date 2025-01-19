@@ -253,8 +253,16 @@ def display_bar_chart():
         st.error("The CSV file does not have the expected columns: 'Species' and 'Temperature Range Preferendum'.")
 # Loading the dataset
 def linear_regression():
-    file_path = 'C:\\Users\\c.wink27\\Downloads\\ps_2023_csv\\catch_20231.csv'
-    catch_data = pd.read_csv(file_path)
+    # Define the path to the CSV file in the GitHub/Streamlit environment
+    destination_file = os.path.join('ThesisWork', 'catch_20231.csv')
+
+    # Check if the file exists
+    if not os.path.exists(destination_file):
+        st.error(f"Error: The file 'catch_20231.csv' is missing in the 'ThesisWork' folder.")
+        st.write("Please make sure the CSV file is placed in the 'ThesisWork' folder and try again.")
+    else:
+        # If the file exists, read the CSV data
+        catch_data = pd.read_csv(destination_file)
 
     # Filter the data for rows with valid length and weight values 
     filtered_data = catch_data[(catch_data['tot_len_a'] > 0) & (catch_data['wgt_a'] > 0)]
