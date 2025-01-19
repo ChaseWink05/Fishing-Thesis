@@ -4,3 +4,5 @@ folium
 pandas
 matplotlib
 requests
+statsmodels
+
