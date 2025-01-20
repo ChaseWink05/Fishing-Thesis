@@ -7,9 +7,9 @@ fish_data = pd.read_csv(file_path)
 
 # Fill missing species names
 fish_data['common'] = fish_data['common'].fillna('Unknown')  
-# Replace any missing values in the 'common' column (species names) with the string 'Unknown' to avoid errors in processing
+# Replace any missing values in the 'common' column with the string 'Unknown' to avoid errors in processing
 
-# Count species occurrences and get the top 5 species (excluding "Unknown")
+# Count species occurrences and get the top 5 species excluding "Unknown"
 species_counts = fish_data['common'].value_counts()  
 # Count the number of occurrences for each species in the 'common' column and return a Series sorted by counts in descending order
 
@@ -32,8 +32,8 @@ for species, color in zip(top_species, colors):
     species_data = filtered_data[filtered_data['common'] == species]  
     # Filter `filtered_data` to include only rows corresponding to the current species in the loop
     plt.scatter(
-        species_data['tot_len_a'],  # X-axis: Total length of the fish (column 'tot_len_a')
-        species_data['wgt_a'],  # Y-axis: Weight of the fish (column 'wgt_a')
+        species_data['tot_len_a'],  # X-axis Total length of the fish (column 'tot_len_a')
+        species_data['wgt_a'],  # Y-axis Weight of the fish (column 'wgt_a')
         label=species,  # Label for the species, used in the plot legend
         color=color,  # Set the color of the scatter points to the species-specific color
         alpha=0.7  # Make the points slightly transparent to enhance visibility in overlapping regions
