@@ -49,7 +49,7 @@ def display():
         yaxis_title="Count",
         xaxis=dict(tickangle=90),
         template="plotly_white",
-        font=dict(size=12)
+        font=dict(size=30)
     )
 
     # Display the Plotly chart in the Streamlit app
