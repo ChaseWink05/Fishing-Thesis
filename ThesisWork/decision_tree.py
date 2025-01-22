@@ -1,8 +1,10 @@
-import numpy as np 
-import matplotlib.pyplot as plt  
-import pandas as pd 
-from sklearn.tree import DecisionTreeRegressor  # Decision Tree model from scikit-learn for regression
-from sklearn.metrics import r2_score, mean_squared_error  # For evaluating the model's performance
+
+from plotly import graph_objects as go
+import plotly.express as px
+import pandas as pd
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.metrics import mean_squared_error, r2_score
+import numpy as np
 import os
 import streamlit as st
 
@@ -19,45 +21,64 @@ def run():
         catch_data = pd.read_csv(destination_file)
 
     # Filter the data for valid rows: keeping only rows where both 'tot_len_a' and 'wgt_a' are greater than 0
-    # This ensures we don't have invalid or missing values for length and weight
-    filtered_data = catch_data[(catch_data['tot_len_a'] > 0) & (catch_data['wgt_a'] > 0)]  # Filters valid data
+    filtered_data = catch_data[(catch_data['tot_len_a'] > 0) & (catch_data['wgt_a'] > 0)]
 
     # Prepare the independent variable (X) and dependent variable (y)
-    X = filtered_data['tot_len_a'].values.reshape(-1, 1)  # 'tot_len_a' represents fish length reshaping as a column for the decsion tree
+    X = filtered_data['tot_len_a'].values.reshape(-1, 1)  # 'tot_len_a' represents fish length
     y = filtered_data['wgt_a'].values  # 'wgt_a' represents fish weight
 
     # Initialize the Decision Tree Regressor model with a maximum depth of 5
     regressor = DecisionTreeRegressor(random_state=0, max_depth=5)
 
-    # Fit the decision tree model to the training data X for input features and y for output labels
+    # Fit the decision tree model to the training data
     regressor.fit(X, y)
 
-    # Predict the fish weights (y_pred) based on the trained model and input data X
+    # Predict the fish weights (y_pred) based on the trained model
     y_pred = regressor.predict(X)
 
-    # Calculate the R-squared score which is how well the model's predictions match the actual data
+    # Calculate R-squared score and Mean Squared Error
     r_squared = r2_score(y, y_pred)
-    print(f"R-squared: {r_squared}")  # Output the R-squared score
-
-    # Calculate Mean Squared Error, which measures the average squared difference between predicted and actual values
     mse = mean_squared_error(y, y_pred)
-    print(f"Mean Squared Error: {mse}")  # Output the Mean Squared Error value
+    st.write(f"R-squared: {r_squared}")
+    st.write(f"Mean Squared Error: {mse}")
 
     # Predict the weight of a fish when the length is 50mm
-    predicted_weight = regressor.predict([[50]])  # Predict for length 50mm
-    print(f"Predicted weight for length 50: {predicted_weight}")  # Output the predicted weight for 50mm length
+    predicted_weight = regressor.predict([[50]])
+    st.write(f"Predicted weight for length 50mm: {predicted_weight[0]}")
 
-    # Create a high res grid of lengths for visualization 
-    X_grid = np.arange(min(X), max(X), 0.1).reshape(-1, 1)  # Generates values from min(X) to max(X) with small steps (0.1)
+    # Create a high-resolution grid of lengths for visualization
+    X_grid = np.arange(min(X), max(X), 0.1).reshape(-1, 1)
 
-    # Create the plot
-    fig, ax = plt.subplots(figsize=(8, 6))
-    ax.scatter(X, y, color='red', label='Actual Data')
-    ax.plot(X_grid, regressor.predict(X_grid), color='blue', label='Predicted Curve')
-    ax.set_title('Length vs Weight (Decision Tree Regression)')
-    ax.set_xlabel('Length')
-    ax.set_ylabel('Weight')
-    ax.legend()
+    # Create the interactive plot with Plotly
+    fig = go.Figure()
 
-    st.pyplot(fig)
+    # Add scatter plot for actual data points
+    fig.add_trace(go.Scatter(
+        x=filtered_data['tot_len_a'], 
+        y=filtered_data['wgt_a'], 
+        mode='markers', 
+        name='Actual Data', 
+        marker=dict(color='red', size=8)
+    ))
+
+    # Add line for the predicted regression curve
+    fig.add_trace(go.Scatter(
+        x=X_grid.flatten(), 
+        y=regressor.predict(X_grid), 
+        mode='lines', 
+        name='Predicted Curve', 
+        line=dict(color='blue', width=2)
+    ))
+
+    # Update layout
+    fig.update_layout(
+        title='Length vs Weight (Decision Tree Regression)',
+        xaxis_title='Length',
+        yaxis_title='Weight',
+        template='plotly_white',
+        legend=dict(orientation='h', yanchor='bottom', y=1.02, xanchor='right', x=1)
+    )
+
+    # Display the interactive plot in Streamlit
+    st.plotly_chart(fig)
 
