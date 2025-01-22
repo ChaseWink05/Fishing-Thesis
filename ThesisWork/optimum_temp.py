@@ -43,7 +43,7 @@ def display_bar_chart():
         fig.update_layout(
             title="Temperature Range Preferendum by Species",
             xaxis_title="Species",
-            yaxis_title="Temperature Range Preferendum (°C)",
+            yaxis_title="Temperature Range Preferendum (°F)",
             template="plotly_white",
             xaxis=dict(tickangle=45)  # Rotate x-axis labels
         )
