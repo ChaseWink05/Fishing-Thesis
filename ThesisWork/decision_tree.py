@@ -76,7 +76,7 @@ def run():
 
     # Display the interactive plot in Streamlit
     st.plotly_chart(fig)
-     st.write(f"R-squared: {r_squared}")
+    st.write(f"R-squared: {r_squared}")
     st.write(f"Mean Squared Error: {mse}")
 
     # Predict the weight of a fish when the length is 50mm
