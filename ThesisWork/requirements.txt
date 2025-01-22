@@ -7,4 +7,6 @@ requests
 statsmodels
 numpy
 scikit-learn
+mpld3
+
 
