@@ -298,7 +298,6 @@ def main():
     col1, col2 = st.columns(2)
 
     with col1:
-        st.write(" " * 10)  # Adds horizontal space before the markdown
         st.markdown("### Linear Regression")
         linear_regression.run()
 
