@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt  
 import os
 import streamlit as st
-import mpld3 
+import mpld3
 import streamlit.components.v1 as components
 
 def run():  
@@ -32,16 +32,18 @@ def run():
     # Filter data for only the top species
     filtered_data = fish_data[fish_data['common'].isin(top_species)]  
     # Create a new DataFrame `filtered_data` that includes only rows where the 'common' column matches one of the `top_species`
-    # Create the matplotlib figure
-    fig, ax = plt.subplots(figsize=(12, 8))
 
-    # Define colors for each species
-    colors = ['blue', 'green', 'red', 'orange', 'purple']
+    colors = ['blue', 'green', 'red', 'orange', 'purple']  
+    # Define a list of distinct colors to represent each species in the scatter plot
 
-    # Loop through each species and plot the scatter
+    plt.figure(figsize=(12, 8))  
+    # Set the size of the figure to make the plot visually clear and large 
+
     for species, color in zip(top_species, colors):  
+        # Loop through each species in `top_species` and its corresponding color
         species_data = filtered_data[filtered_data['common'] == species]  
-        ax.scatter(
+        # Filter `filtered_data` to include only rows corresponding to the current species in the loop
+        plt.scatter(
             species_data['tot_len_a'],  # X-axis Total length of the fish (column 'tot_len_a')
             species_data['wgt_a'],  # Y-axis Weight of the fish (column 'wgt_a')
             label=species,  # Label for the species, used in the plot legend
@@ -50,16 +52,23 @@ def run():
         )
 
     # Add titles, labels, and gridlines to the plot
-    ax.set_title("Clustering of Fish Data by Species (Excluding Unknown)", fontsize=16)  
-    ax.set_xlabel("Total Length (tot_len_a)", fontsize=14)  
-    ax.set_ylabel("Weight (wgt_a)", fontsize=14)  
-    ax.legend(title="Species", fontsize=12)  
-    ax.grid(alpha=0.3)  
+    plt.title("Clustering of Fish Data by Species (Excluding Unknown)", fontsize=16)  
+    # Title of the plot, indicating the data being visualized and the exclusion of 'Unknown'
 
-    # Convert the matplotlib figure to an interactive HTML using mpld3
-    fig_html = mpld3.fig_to_html(fig)
+    plt.xlabel("Total Length (tot_len_a)", fontsize=14)  
+    # Label for the X-axis to represent the total length of the fish
 
-    # Display the interactive plot in Streamlit
-    components.html(fig_html, height=600)
+    plt.ylabel("Weight (wgt_a)", fontsize=14)  
+    # Label for the Y-axis to represent the weight of the fish
 
+    plt.legend(title="Species", fontsize=12)  
+    # Add a legend to the plot to show which color corresponds to which species
+
+    plt.grid(alpha=0.3)  
+    # Add gridlines to the plot for easier reading of the data points and making the gridlines slightly transparent
+    fig = plt.figure()
+    plt.plot()  
     
+    fig_html = mpld3.fig_to_html(fig)
+    components.html(fig_html, height=600)
+    # Display the plot to the user
