@@ -293,6 +293,7 @@ def main():
         st.subheader("Existing Trip Data")
         st.markdown(existing_data.reset_index(drop=True).to_html(index=False, escape=False), unsafe_allow_html=True)
     display_bar_chart()
+    most_occuring_species.run()
     st.title("Fish Length vs Weight Analysis")
 
     # Create two columns for side-by-side display
@@ -307,7 +308,7 @@ def main():
         st.markdown("### Decision Tree Regression")
         decision_tree.run()  
     
-    most_occuring_species.run()
+    
 
 
 if __name__ == "__main__":

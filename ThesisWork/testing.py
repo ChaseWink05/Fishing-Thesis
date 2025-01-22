@@ -7,6 +7,7 @@ import sys
 import re
 import matplotlib.pyplot as plt
 import requests
+import plotly.express as px
 
 #This segment checks if Streamlit is already running. If it's not, it sets an environment variable called
 #STREAMLIT_RUNNING to indicate that Streamlit should be started. It then creates a command to run Streamlit 
@@ -321,38 +322,68 @@ if not existing_data.empty:
         st.session_state.refresh = True  # Refresh the app after deletion to update the changes
 
 # Path to the correct file location for GitHub and Streamlit Cloud
-destination_file = os.path.join('ThesisWork', 'optimum-ranges-f.csv')
+#destination_file = os.path.join('ThesisWork', 'optimum-ranges-f.csv')
 
 # Doing a simple check to see if the file is in the right location
-if not os.path.exists(destination_file):
-    st.error(f"Error: The file 'optimum-ranges-f.csv' is missing in the 'ThesisWork' folder.")
+#if not os.path.exists(destination_file):
+    #st.error(f"Error: The file 'optimum-ranges-f.csv' is missing in the 'ThesisWork' folder.")
     # Providing instructions to the user to place the file in the correct folder
-    st.write(f"Please make sure the CSV file is placed in the 'ThesisWork' folder and try again.")
+    #st.write(f"Please make sure the CSV file is placed in the 'ThesisWork' folder and try again.")
 
 # Proceed only if the file exists in the destination folder
-if os.path.exists(destination_file):  # Check again if the file exists
-    df = pd.read_csv(destination_file)  # Load the CSV file into a pandas DataFrame for processing
+#if os.path.exists(destination_file):  # Check again if the file exists
+    #df = pd.read_csv(destination_file)  # Load the CSV file into a pandas DataFrame for processing
 
     # Clean up column names by removing extra spaces
-    df.columns = df.columns.str.strip()  # makes sure that there is no spaces
+    #df.columns = df.columns.str.strip()  # makes sure that there is no spaces
 
     # Check if the required columns exist in the DataFrame
-    if "Species" in df.columns and "Temperature Range Preferendum" in df.columns:  # Ensure these columns are present
+    #if "Species" in df.columns and "Temperature Range Preferendum" in df.columns:  # Ensure these columns are present
         # This is the title
-        st.subheader("Temperature Range Preferendum for Species")
-        st.dataframe(df)  # Show the DataFrame on the tab
+        #st.subheader("Temperature Range Preferendum for Species")
+        #st.dataframe(df)  # Show the DataFrame on the tab
 
         # Plotting the data from the DataFrame
-        plt.figure(figsize=(10, 6))  # Set the figure size for the plot
-        plt.bar(df["Species"], df["Temperature Range Preferendum"], color='skyblue')  # Creating a bar chart
-        plt.xlabel("Species")  # Label for the x-axis
-        plt.ylabel("Temperature Range Preferendum (°C)")  # Label for the y-axis
-        plt.title("Temperature Range Preferendum by Species")  # Add a title to the plot
-        plt.xticks(rotation=45, ha='right')  # Rotate x-axis labels for better readability
-        st.pyplot(plt)  # Display the plot in the Streamlit app
-    else:
+        #plt.figure(figsize=(10, 6))  # Set the figure size for the plot
+        #plt.bar(df["Species"], df["Temperature Range Preferendum"], color='skyblue')  # Creating a bar chart
+        #plt.xlabel("Species")  # Label for the x-axis
+        #plt.ylabel("Temperature Range Preferendum (°C)")  # Label for the y-axis
+        #plt.title("Temperature Range Preferendum by Species")  # Add a title to the plot
+        #plt.xticks(rotation=45, ha='right')  # Rotate x-axis labels for better readability
+        #st.pyplot(plt)  # Display the plot in the Streamlit app
+    #else:
         # If the necessary columns are missing, show an error
-        st.error("The CSV file does not have the expected columns: 'Species' and 'Temperature Range Preferendum'.")
+        #st.error("The CSV file does not have the expected columns: 'Species' and 'Temperature Range Preferendum'.")
+    
+    file_path = r'C:\Users\c.wink27\Downloads\ps_2023_csv\catch_20236.csv'  
+    fish_data = pd.read_csv(file_path) 
+    # Fill missing species names
+    fish_data['common'] = fish_data['common'].fillna('Unknown')  
+    # Replace any missing values in the 'common' column with the string 'Unknown' to avoid errors in processing
+
+    # Count species occurrences and get the top 5 species excluding "Unknown"
+    species_counts = fish_data['common'].value_counts()  
+    # Count the number of occurrences for each species in the 'common' column and return a Series sorted by counts in descending order
+
+    top_species = [species for species in species_counts.index[:6] if species != 'Unknown']  
+    # Take the top 5 most common species by selecting the first 5 indices from `species_counts`
+    # Use a list comprehension to exclude 'Unknown' from the list of top species
+
+    # Filter data for only the top species
+    filtered_data = fish_data[fish_data['common'].isin(top_species)]  
+    # Create a new DataFrame `filtered_data` that includes only rows where the 'common' column matches one of the `top_species`
+
+    # Create a Plotly scatter plot
+    fig = px.scatter(filtered_data, 
+                     x='tot_len_a', 
+                     y='wgt_a', 
+                     color='common',  # Color points based on species
+                     labels={'tot_len_a': 'Total Length', 'wgt_a': 'Weight'},
+                     title="Clustering of Fish Data by Species (Excluding Unknown)",
+                     category_orders={'common': top_species})  # Limit legend to top species
+
+    # Show the interactive plot in Streamlit
+    st.plotly_chart(fig) 
 
 #This triggers a refresh of the app's data when certain conditions are met, without having to manually interact with the app.
 #Check for app refresh flag in session state
