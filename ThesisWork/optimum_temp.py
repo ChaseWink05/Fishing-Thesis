@@ -1,7 +1,7 @@
 import os
 import streamlit as st
 import pandas as pd
-import plotly as plt
+import matplotlib.pyplot as plt
 
 # Bar graph functionality
 def display_bar_chart():
