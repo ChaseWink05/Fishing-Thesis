@@ -8,7 +8,6 @@ import plotly.express as px
 from plotly import graph_objects as go
 
 
-# Loading the dataset
 def run():
     # Define the path to the CSV file in the GitHub/Streamlit environment
     destination_file = os.path.join('ThesisWork', 'catch_20236.csv')
@@ -33,15 +32,23 @@ def run():
     # Fit the linear regression model
     model = sm.OLS(y, X).fit()
 
-    # Print the regression results summary
-    print(model.summary())
+    # Extract regression line data
+    filtered_data['predicted_wgt'] = model.predict(X)
 
-    fig, ax = plt.subplots(figsize=(8, 6))
-    ax.scatter(filtered_data['tot_len_a'], filtered_data['wgt_a'], alpha=0.7, label='Data Points')
-    ax.plot(filtered_data['tot_len_a'], model.predict(X), color='red', label='Regression Line')
-    ax.set_title('Fish Length vs Weight (Linear Regression)')
-    ax.set_xlabel('Fish Length (mm)')
-    ax.set_ylabel('Fish Weight (kg)')
-    ax.legend()
-    ax.grid(True)
-    st.pyplot(fig)
+    # Create a Plotly scatter plot with a regression line
+    fig = px.scatter(filtered_data, 
+                     x='tot_len_a', 
+                     y='wgt_a', 
+                     labels={'tot_len_a': 'Fish Length (mm)', 'wgt_a': 'Fish Weight (kg)'},
+                     title="Fish Length vs Weight (Linear Regression)",
+                     opacity=0.7)
+
+    # Add the regression line to the plot
+    fig.add_trace(go.Scatter(x=filtered_data['tot_len_a'], 
+                             y=filtered_data['predicted_wgt'],
+                             mode='lines',
+                             name='Regression Line',
+                             line=dict(color='red')))
+
+    # Display the plot in Streamlit
+    st.plotly_chart(fig)
