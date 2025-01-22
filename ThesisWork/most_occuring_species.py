@@ -5,7 +5,7 @@ import streamlit as st
 import mpld3
 import streamlit.components.v1 as components
 
-def run():  
+def run():
     # Define the path to the CSV file in the GitHub/Streamlit environment
     destination_file = os.path.join('ThesisWork', 'catch_20236.csv')
 
@@ -23,38 +23,25 @@ def run():
 
     # Count species occurrences and get the top 5 species excluding "Unknown"
     species_counts = fish_data['common'].value_counts()  
+    # Count the number of occurrences for each species in the 'common' column and return a Series sorted by counts in descending order
 
     top_species = [species for species in species_counts.index[:6] if species != 'Unknown']  
+    # Take the top 5 most common species by selecting the first 5 indices from `species_counts`
+    # Use a list comprehension to exclude 'Unknown' from the list of top species
 
     # Filter data for only the top species
     filtered_data = fish_data[fish_data['common'].isin(top_species)]  
+    # Create a new DataFrame `filtered_data` that includes only rows where the 'common' column matches one of the `top_species`
 
-    colors = ['blue', 'green', 'red', 'orange', 'purple']  
+    # Create a Plotly scatter plot
+    fig = px.scatter(filtered_data, 
+                     x='tot_len_a', 
+                     y='wgt_a', 
+                     color='common',  # Color points based on species
+                     labels={'tot_len_a': 'Total Length', 'wgt_a': 'Weight'},
+                     title="Clustering of Fish Data by Species (Excluding Unknown)",
+                     category_orders={'common': top_species})  # Limit legend to top species
 
-    plt.figure(figsize=(12, 8))  # Set the size of the figure to make the plot visually clear and large 
-
-    for species, color in zip(top_species, colors):  
-        species_data = filtered_data[filtered_data['common'] == species]  
-        plt.scatter(
-            species_data['tot_len_a'],  
-            species_data['wgt_a'],  
-            label=species,  
-            color=color,  
-            alpha=0.7  
-        )
-
-    # Add titles, labels, and gridlines to the plot
-    plt.title("Clustering of Fish Data by Species (Excluding Unknown)", fontsize=16)  
-    plt.xlabel("Total Length (tot_len_a)", fontsize=14)  
-    plt.ylabel("Weight (wgt_a)", fontsize=14)  
-    plt.legend(title="Species", fontsize=12)  
-    plt.grid(alpha=0.3)
-
-    # Ensure the plot doesn't get clipped
-    plt.tight_layout()
-
-    # Convert the matplotlib figure to an interactive HTML using mpld3
-    fig_html = mpld3.fig_to_html(plt.gcf())  
-
-    # Display the interactive plot in Streamlit
-    components.html(fig_html, height=600)
+    # Show the interactive plot in Streamlit
+    st.plotly_chart(fig) 
+    

@@ -7,6 +7,11 @@ import sys
 import streamlit as st
 import plotly.express as px
 import pandas as pd
+import pandas as pd
+import matplotlib.pyplot as plt
+import streamlit as st
+import mpld3
+import streamlit.components.v1 as components
 
 
 def ensure_streamlit_running():
@@ -18,17 +23,20 @@ def ensure_streamlit_running():
 def main():
     ensure_streamlit_running()
     
-    # Sample data for demonstration
-    data = pd.DataFrame({
-        'x': range(1, 101),
-        'y': [i**2 for i in range(1, 101)]
-    })
+     # Create a simple DataFrame for testing
+    data = {
+        'X': [1, 2, 3, 4, 5],
+        'Y': [2, 4, 6, 8, 10],
+        'Label': ['A', 'B', 'C', 'D', 'E']
+    }
+    df = pd.DataFrame(data)
 
-    # Create a Plotly figure (interactive by default)
-    fig = px.line(data, x='x', y='y', title='Zoomable Chart')
-
-    # Display the Plotly figure in Streamlit
+    # Create a scatter plot using Plotly
+    fig = px.scatter(df, x='X', y='Y', text='Label', title="Interactive Scatter Plot with Plotly")
+    
+    # Show the interactive plot in Streamlit
     st.plotly_chart(fig)
+
 
 
 if __name__ == "__main__":
