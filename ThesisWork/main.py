@@ -298,7 +298,7 @@ def main():
     col1, col2 = st.columns(2)
 
     with col1:
-        st.header("Linear Regression")
+        st.markdown("### Linear Regression")
         linear_regression.run()
 
     with col2:
