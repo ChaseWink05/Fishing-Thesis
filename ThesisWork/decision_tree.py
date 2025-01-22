@@ -3,55 +3,65 @@ import matplotlib.pyplot as plt
 import pandas as pd 
 from sklearn.tree import DecisionTreeRegressor  # Decision Tree model from scikit-learn for regression
 from sklearn.metrics import r2_score, mean_squared_error  # For evaluating the model's performance
+import os
+import streamlit as st
 
-file_path = 'C:\\Users\\c.wink27\\Downloads\\ps_2023_csv\\catch_20231.csv'  
-catch_data = pd.read_csv(file_path) 
+def run():
+    # Define the path to the CSV file in the GitHub/Streamlit environment
+    destination_file = os.path.join('ThesisWork', 'catch_20236.csv')
 
-# Filter the data for valid rows: keeping only rows where both 'tot_len_a' and 'wgt_a' are greater than 0
-# This ensures we don't have invalid or missing values for length and weight
-filtered_data = catch_data[(catch_data['tot_len_a'] > 0) & (catch_data['wgt_a'] > 0)]  # Filters valid data
+    # Check if the file exists
+    if not os.path.exists(destination_file):
+        st.error(f"Error: The file 'catch_20236.csv' is missing in the 'ThesisWork' folder.")
+        st.write("Please make sure the CSV file is placed in the 'ThesisWork' folder and try again.")
+    else:
+        # If the file exists, read the CSV data
+        catch_data = pd.read_csv(destination_file)
 
-# Prepare the independent variable (X) and dependent variable (y)
-X = filtered_data['tot_len_a'].values.reshape(-1, 1)  # 'tot_len_a' represents fish length reshaping as a column for the decsion tree
-y = filtered_data['wgt_a'].values  # 'wgt_a' represents fish weight
+    # Filter the data for valid rows: keeping only rows where both 'tot_len_a' and 'wgt_a' are greater than 0
+    # This ensures we don't have invalid or missing values for length and weight
+    filtered_data = catch_data[(catch_data['tot_len_a'] > 0) & (catch_data['wgt_a'] > 0)]  # Filters valid data
 
-# Initialize the Decision Tree Regressor model with a maximum depth of 5
-regressor = DecisionTreeRegressor(random_state=0, max_depth=5)
+    # Prepare the independent variable (X) and dependent variable (y)
+    X = filtered_data['tot_len_a'].values.reshape(-1, 1)  # 'tot_len_a' represents fish length reshaping as a column for the decsion tree
+    y = filtered_data['wgt_a'].values  # 'wgt_a' represents fish weight
 
-# Fit the decision tree model to the training data X for input features and y for output labels
-regressor.fit(X, y)
+    # Initialize the Decision Tree Regressor model with a maximum depth of 5
+    regressor = DecisionTreeRegressor(random_state=0, max_depth=5)
 
-# Predict the fish weights (y_pred) based on the trained model and input data X
-y_pred = regressor.predict(X)
+    # Fit the decision tree model to the training data X for input features and y for output labels
+    regressor.fit(X, y)
 
-# Calculate the R-squared score which is how well the model's predictions match the actual data
-r_squared = r2_score(y, y_pred)
-print(f"R-squared: {r_squared}")  # Output the R-squared score
+    # Predict the fish weights (y_pred) based on the trained model and input data X
+    y_pred = regressor.predict(X)
 
-# Calculate Mean Squared Error, which measures the average squared difference between predicted and actual values
-mse = mean_squared_error(y, y_pred)
-print(f"Mean Squared Error: {mse}")  # Output the Mean Squared Error value
+    # Calculate the R-squared score which is how well the model's predictions match the actual data
+    r_squared = r2_score(y, y_pred)
+    print(f"R-squared: {r_squared}")  # Output the R-squared score
 
-# Predict the weight of a fish when the length is 50mm
-predicted_weight = regressor.predict([[50]])  # Predict for length 50mm
-print(f"Predicted weight for length 50: {predicted_weight}")  # Output the predicted weight for 50mm length
+    # Calculate Mean Squared Error, which measures the average squared difference between predicted and actual values
+    mse = mean_squared_error(y, y_pred)
+    print(f"Mean Squared Error: {mse}")  # Output the Mean Squared Error value
 
-# Create a high res grid of lengths for visualization 
-X_grid = np.arange(min(X), max(X), 0.1).reshape(-1, 1)  # Generates values from min(X) to max(X) with small steps (0.1)
+    # Predict the weight of a fish when the length is 50mm
+    predicted_weight = regressor.predict([[50]])  # Predict for length 50mm
+    print(f"Predicted weight for length 50: {predicted_weight}")  # Output the predicted weight for 50mm length
 
-# Create a scatter plot of the actual data points (fish length vs. weight)
-plt.scatter(X, y, color='red', label='Actual Data')  # Plot actual data points as red dots
+    # Create a high res grid of lengths for visualization 
+    X_grid = np.arange(min(X), max(X), 0.1).reshape(-1, 1)  # Generates values from min(X) to max(X) with small steps (0.1)
 
-# Plot the predicted curve based on the decision tree model, which smooths out the data into a curve
-plt.plot(X_grid, regressor.predict(X_grid), color='blue', label='Predicted Curve')  # Plot predicted curve as blue line
+    # Create a scatter plot of the actual data points (fish length vs. weight)
+    plt.scatter(X, y, color='red', label='Actual Data')  # Plot actual data points as red dots
 
-# Add a title and axis labels to the plot
-plt.title('Length vs Weight (Decision Tree Regression)')  # Set the title of the plot
-plt.xlabel('Length')  # Label the x-axis as 'Length'
-plt.ylabel('Weight')  # Label the y-axis as 'Weight'
+    # Plot the predicted curve based on the decision tree model, which smooths out the data into a curve
+    plt.plot(X_grid, regressor.predict(X_grid), color='blue', label='Predicted Curve')  # Plot predicted curve as blue line
 
-# Display the legend to differentiate between the actual data and the predicted curve
-plt.legend()
+    # Add a title and axis labels to the plot
+    plt.title('Length vs Weight (Decision Tree Regression)')  # Set the title of the plot
+    plt.xlabel('Length')  # Label the x-axis as 'Length'
+    plt.ylabel('Weight')  # Label the y-axis as 'Weight'
 
-# Show the plot
-plt.show()  # Render and display the plot
+    # Display the legend to differentiate between the actual data and the predicted curve
+    plt.legend()
+
+    st.pyplot(plt)
