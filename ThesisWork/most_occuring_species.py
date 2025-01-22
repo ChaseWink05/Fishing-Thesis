@@ -4,6 +4,7 @@ import os
 import streamlit as st
 import mpld3
 import streamlit.components.v1 as components
+import plotly.express as px
 
 def run():
     # Define the path to the CSV file in the GitHub/Streamlit environment
