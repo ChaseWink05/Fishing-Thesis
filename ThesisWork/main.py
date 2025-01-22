@@ -231,8 +231,6 @@ def main():
     wapi.weather_api()
     data_file = "trip_data.csv"
 
-   
-
     existing_data = initialize_data(data_file)
     st.subheader("Interactive Map")
     map_obj = create_map(existing_data)
@@ -247,6 +245,7 @@ def main():
     if not existing_data.empty:
         st.subheader("Existing Trip Data")
         st.markdown(existing_data.reset_index(drop=True).to_html(index=False, escape=False), unsafe_allow_html=True)
+        
     optimum_temp.display_bar_chart()
     st.title("Fish Length vs Weight Analysis")
 

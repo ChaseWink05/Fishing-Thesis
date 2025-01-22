@@ -1,7 +1,7 @@
 import os
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
+from plotly import graph_objects as go
 
 # Bar graph functionality
 def display_bar_chart():
@@ -11,30 +11,46 @@ def display_bar_chart():
     # Doing a simple check to see if the file is in the right location
     if not os.path.exists(destination_file):
         st.error(f"Error: The file 'optimum-ranges-f.csv' is missing in the 'ThesisWork' folder.")
-        # Providing instructions to the user to place the file in the correct folder
-        st.write(f"Please make sure the CSV file is placed in the 'ThesisWork' folder and try again.")
+        st.write("Please make sure the CSV file is placed in the 'ThesisWork' folder and try again.")
+        return  # Exit the function if the file is missing
 
-    # Proceed only if the file exists in the destination folder
-    if os.path.exists(destination_file):  # Check again if the file exists
-        df = pd.read_csv(destination_file)  # Load the CSV file into a pandas DataFrame for processing
+    # Load the CSV file into a pandas DataFrame
+    df = pd.read_csv(destination_file)
 
     # Clean up column names by removing extra spaces
-    df.columns = df.columns.str.strip()  # makes sure that there is no spaces
+    df.columns = df.columns.str.strip()
 
     # Check if the required columns exist in the DataFrame
-    if "Species" in df.columns and "Temperature Range Preferendum" in df.columns:  # Ensure these columns are present
-        # This is the title
+    if "Species" in df.columns and "Temperature Range Preferendum" in df.columns:
+        # Display the title and DataFrame in the Streamlit app
         st.subheader("Temperature Range Preferendum for Species")
-        st.dataframe(df)  # Show the DataFrame on the tab
+        st.dataframe(df)
 
-        # Plotting the data from the DataFrame
-        plt.figure(figsize=(10, 6))  # Set the figure size for the plot
-        plt.bar(df["Species"], df["Temperature Range Preferendum"], color='skyblue')  # Creating a bar chart
-        plt.xlabel("Species")  # Label for the x-axis
-        plt.ylabel("Temperature Range Preferendum (°C)")  # Label for the y-axis
-        plt.title("Temperature Range Preferendum by Species")  # Add a title to the plot
-        plt.xticks(rotation=45, ha='right')  # Rotate x-axis labels for better readability
-        st.pyplot(plt)  # Display the plot in the Streamlit app
+        # Create an interactive bar chart using Plotly
+        fig = go.Figure()
+
+        # Add bar trace
+        fig.add_trace(go.Bar(
+            x=df["Species"],
+            y=df["Temperature Range Preferendum"],
+            marker_color='skyblue',
+            text=df["Temperature Range Preferendum"],
+            textposition='auto',
+            name="Temperature Range"
+        ))
+
+        # Update the layout for better presentation
+        fig.update_layout(
+            title="Temperature Range Preferendum by Species",
+            xaxis_title="Species",
+            yaxis_title="Temperature Range Preferendum (°C)",
+            template="plotly_white",
+            xaxis=dict(tickangle=45)  # Rotate x-axis labels
+        )
+
+        # Display the Plotly chart in the Streamlit app
+        st.plotly_chart(fig)
+
     else:
-        # If the necessary columns are missing, show an error
+        # Show an error if the necessary columns are missing
         st.error("The CSV file does not have the expected columns: 'Species' and 'Temperature Range Preferendum'.")
