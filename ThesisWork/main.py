@@ -8,6 +8,7 @@ import re
 import matplotlib.pyplot as plt
 import requests
 import statsmodels.api as sm
+import linear_regression
 
 #This segment checks if Streamlit is already running. If it's not, it sets an environment variable called
 #STREAMLIT_RUNNING to indicate that Streamlit should be started. It then creates a command to run Streamlit 
@@ -251,44 +252,7 @@ def display_bar_chart():
     else:
         # If the necessary columns are missing, show an error
         st.error("The CSV file does not have the expected columns: 'Species' and 'Temperature Range Preferendum'.")
-# Loading the dataset
-def linear_regression():
-    # Define the path to the CSV file in the GitHub/Streamlit environment
-    destination_file = os.path.join('ThesisWork', 'catch_20236.csv')
 
-    # Check if the file exists
-    if not os.path.exists(destination_file):
-        st.error(f"Error: The file 'catch_20236.csv' is missing in the 'ThesisWork' folder.")
-        st.write("Please make sure the CSV file is placed in the 'ThesisWork' folder and try again.")
-    else:
-        # If the file exists, read the CSV data
-        catch_data = pd.read_csv(destination_file)
-
-    # Filter the data for rows with valid length and weight values 
-    filtered_data = catch_data[(catch_data['tot_len_a'] > 0) & (catch_data['wgt_a'] > 0)]
-
-    # Independent variable, adding a constant for intercept in the model
-    X = sm.add_constant(filtered_data['tot_len_a'])
-
-    # Dependent variable
-    y = filtered_data['wgt_a']
-
-    # Fit the linear regression model
-    model = sm.OLS(y, X).fit()
-
-    # Print the regression results summary
-    print(model.summary())
-
-    # Create a scatter plot with the regression line using Matplotlib
-    plt.figure(figsize=(10, 6))
-    plt.scatter(filtered_data['tot_len_a'], filtered_data['wgt_a'], alpha=0.7, label='Data Points')
-    plt.plot(filtered_data['tot_len_a'], model.predict(X), color='red', label='Regression Line')
-    plt.title('Fish Length vs Weight')
-    plt.xlabel('Fish Length (mm)')
-    plt.ylabel('Fish Weight (kg)')
-    plt.legend()
-    plt.grid(True)
-    st.pyplot(plt)
 
 
 def main():
@@ -327,7 +291,7 @@ def main():
         st.subheader("Existing Trip Data")
         st.markdown(existing_data.reset_index(drop=True).to_html(index=False, escape=False), unsafe_allow_html=True)
     display_bar_chart()
-    linear_regression()
+    linear_regression.run()
 
 
 if __name__ == "__main__":

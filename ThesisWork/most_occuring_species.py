@@ -13,7 +13,7 @@ fish_data['common'] = fish_data['common'].fillna('Unknown')
 species_counts = fish_data['common'].value_counts()  
 # Count the number of occurrences for each species in the 'common' column and return a Series sorted by counts in descending order
 
-top_species = [species for species in species_counts.index[:5] if species != 'Unknown']  
+top_species = [species for species in species_counts.index[:6] if species != 'Unknown']  
 # Take the top 5 most common species by selecting the first 5 indices from `species_counts`
 # Use a list comprehension to exclude 'Unknown' from the list of top species
 
