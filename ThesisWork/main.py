@@ -302,7 +302,7 @@ def main():
         linear_regression.run()
 
     with col2:
-        st.header("##Decision Tree Regression")
+        st.header("### Decision Tree Regression")
         decision_tree.run()  
 
 
