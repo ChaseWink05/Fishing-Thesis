@@ -8,5 +8,6 @@ statsmodels
 numpy
 scikit-learn
 mpld3
+plotly
 
 

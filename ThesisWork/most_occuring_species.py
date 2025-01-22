@@ -2,7 +2,6 @@ import pandas as pd
 import matplotlib.pyplot as plt  
 import os
 import streamlit as st
-import mpld3
 import streamlit.components.v1 as components
 import plotly.express as px
 
