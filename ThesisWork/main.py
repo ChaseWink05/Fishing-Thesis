@@ -294,7 +294,6 @@ def main():
         st.subheader("Existing Trip Data")
         st.markdown(existing_data.reset_index(drop=True).to_html(index=False, escape=False), unsafe_allow_html=True)
     display_bar_chart()
-    #most_occuring_species.run()
     st.title("Fish Length vs Weight Analysis")
 
     # Create two columns for side-by-side display
@@ -308,40 +307,9 @@ def main():
         
         st.markdown("### Decision Tree Regression")
         decision_tree.run()  
-
-
-    file_path = r'C:\Users\c.wink27\Downloads\ps_2023_csv\catch_20236.csv'  
-    fish_data = pd.read_csv(file_path) 
-    # Fill missing species names
-    fish_data['common'] = fish_data['common'].fillna('Unknown')  
-    # Replace any missing values in the 'common' column with the string 'Unknown' to avoid errors in processing
-
-    # Count species occurrences and get the top 5 species excluding "Unknown"
-    species_counts = fish_data['common'].value_counts()  
-    # Count the number of occurrences for each species in the 'common' column and return a Series sorted by counts in descending order
-
-    top_species = [species for species in species_counts.index[:6] if species != 'Unknown']  
-    # Take the top 5 most common species by selecting the first 5 indices from `species_counts`
-    # Use a list comprehension to exclude 'Unknown' from the list of top species
-
-    # Filter data for only the top species
-    filtered_data = fish_data[fish_data['common'].isin(top_species)]  
-    # Create a new DataFrame `filtered_data` that includes only rows where the 'common' column matches one of the `top_species`
-
-    # Create a Plotly scatter plot
-    fig = px.scatter(filtered_data, 
-                     x='tot_len_a', 
-                     y='wgt_a', 
-                     color='common',  # Color points based on species
-                     labels={'tot_len_a': 'Total Length', 'wgt_a': 'Weight'},
-                     title="Clustering of Fish Data by Species (Excluding Unknown)",
-                     category_orders={'common': top_species})  # Limit legend to top species
-
-    # Show the interactive plot in Streamlit
-    st.plotly_chart(fig) 
+        
+    most_occuring_species.run()
     
-    
-
 
 if __name__ == "__main__":
     main()
