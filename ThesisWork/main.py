@@ -302,7 +302,7 @@ def main():
         linear_regression.run()
 
     with col2:
-        st.write("\n" * 10)
+        st.write("\n" * 11)
         st.markdown("### Decision Tree Regression")
         decision_tree.run()  
 
