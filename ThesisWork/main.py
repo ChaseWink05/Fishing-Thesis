@@ -14,6 +14,8 @@ import most_occuring_species
 import plotly.express as px
 import optimum_temp
 import weather_api as wapi
+import top_20_species
+
 
 #This segment checks if Streamlit is already running. If it's not, it sets an environment variable called
 #STREAMLIT_RUNNING to indicate that Streamlit should be started. It then creates a command to run Streamlit 
@@ -245,7 +247,7 @@ def main():
     if not existing_data.empty:
         st.subheader("Existing Trip Data")
         st.markdown(existing_data.reset_index(drop=True).to_html(index=False, escape=False), unsafe_allow_html=True)
-        
+
     optimum_temp.display_bar_chart()
     st.title("Fish Length vs Weight Analysis")
 
@@ -262,6 +264,7 @@ def main():
         decision_tree.run()  
 
     most_occuring_species.run()
+    top_20_species.display()
     
 
 if __name__ == "__main__":
