@@ -42,5 +42,5 @@ def run():
                      category_orders={'common': top_species})  # Limit legend to top species
 
     # Show the interactive plot in Streamlit
-    st.plotly_chart(fig) 
+    st.write(fig) 
     
