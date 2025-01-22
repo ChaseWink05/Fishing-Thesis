@@ -302,7 +302,7 @@ def main():
         linear_regression.run()
 
     with col2:
-        st.markdown("###Decision Tree Regression")
+        st.markdown("### Decision Tree Regression")
         decision_tree.run()  
 
 
