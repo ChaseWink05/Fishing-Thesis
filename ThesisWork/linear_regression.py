@@ -33,13 +33,12 @@ def run():
     # Print the regression results summary
     print(model.summary())
 
-    # Create a scatter plot with the regression line using Matplotlib
-    plt.figure(figsize=(10, 6))
-    plt.scatter(filtered_data['tot_len_a'], filtered_data['wgt_a'], alpha=0.7, label='Data Points')
-    plt.plot(filtered_data['tot_len_a'], model.predict(X), color='red', label='Regression Line')
-    plt.title('Fish Length vs Weight')
-    plt.xlabel('Fish Length (mm)')
-    plt.ylabel('Fish Weight (kg)')
-    plt.legend()
-    plt.grid(True)
-    st.pyplot(plt)
+    fig, ax = plt.subplots(figsize=(8, 6))
+    ax.scatter(filtered_data['tot_len_a'], filtered_data['wgt_a'], alpha=0.7, label='Data Points')
+    ax.plot(filtered_data['tot_len_a'], model.predict(X), color='red', label='Regression Line')
+    ax.set_title('Fish Length vs Weight (Linear Regression)')
+    ax.set_xlabel('Fish Length (mm)')
+    ax.set_ylabel('Fish Weight (kg)')
+    ax.legend()
+    ax.grid(True)
+    st.pyplot(fig)

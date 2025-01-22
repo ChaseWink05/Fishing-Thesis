@@ -50,18 +50,14 @@ def run():
     # Create a high res grid of lengths for visualization 
     X_grid = np.arange(min(X), max(X), 0.1).reshape(-1, 1)  # Generates values from min(X) to max(X) with small steps (0.1)
 
-    # Create a scatter plot of the actual data points (fish length vs. weight)
-    plt.scatter(X, y, color='red', label='Actual Data')  # Plot actual data points as red dots
+    # Create the plot
+    fig, ax = plt.subplots(figsize=(8, 6))
+    ax.scatter(X, y, color='red', label='Actual Data')
+    ax.plot(X_grid, regressor.predict(X_grid), color='blue', label='Predicted Curve')
+    ax.set_title('Length vs Weight (Decision Tree Regression)')
+    ax.set_xlabel('Length')
+    ax.set_ylabel('Weight')
+    ax.legend()
 
-    # Plot the predicted curve based on the decision tree model, which smooths out the data into a curve
-    plt.plot(X_grid, regressor.predict(X_grid), color='blue', label='Predicted Curve')  # Plot predicted curve as blue line
+    st.pyplot(fig)
 
-    # Add a title and axis labels to the plot
-    plt.title('Length vs Weight (Decision Tree Regression)')  # Set the title of the plot
-    plt.xlabel('Length')  # Label the x-axis as 'Length'
-    plt.ylabel('Weight')  # Label the y-axis as 'Weight'
-
-    # Display the legend to differentiate between the actual data and the predicted curve
-    plt.legend()
-
-    st.pyplot(plt)

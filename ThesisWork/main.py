@@ -292,8 +292,18 @@ def main():
         st.subheader("Existing Trip Data")
         st.markdown(existing_data.reset_index(drop=True).to_html(index=False, escape=False), unsafe_allow_html=True)
     display_bar_chart()
-    linear_regression.run()
-    decision_tree.run()
+    st.title("Fish Length vs Weight Analysis")
+
+    # Create two columns for side-by-side display
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.header("Linear Regression")
+        linear_regression.run()
+
+    with col2:
+        st.header("Decision Tree Regression")
+        decision_tree.run()  
 
 
 if __name__ == "__main__":
