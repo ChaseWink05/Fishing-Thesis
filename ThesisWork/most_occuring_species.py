@@ -66,9 +66,9 @@ def run():
 
     plt.grid(alpha=0.3)  
     # Add gridlines to the plot for easier reading of the data points and making the gridlines slightly transparent
-    fig = plt.figure()
-    plt.plot()  
-    
-    fig_html = mpld3.fig_to_html(fig)
+
+    # Convert the matplotlib figure to an interactive HTML using mpld3
+    fig_html = mpld3.fig_to_html(plt.gcf())  # Use the current figure
+
+    # Display the interactive plot in Streamlit
     components.html(fig_html, height=600)
-    # Display the plot to the user
