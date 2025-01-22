@@ -13,6 +13,7 @@ import decision_tree
 import most_occuring_species
 import plotly.express as px
 import optimum_temp
+import weather_api as wapi
 
 #This segment checks if Streamlit is already running. If it's not, it sets an environment variable called
 #STREAMLIT_RUNNING to indicate that Streamlit should be started. It then creates a command to run Streamlit 
@@ -222,27 +223,15 @@ def handle_submission(existing_data, data_file):
     st.rerun()
 
 
-
 def main():
-    ensure_streamlit_running()
-
     # Load weather data and initialize map
     api_key = "709d293f36ae43b0b1d212215250801"
+    ensure_streamlit_running()
+    wapi.get_weather(api_key)
+    wapi.weather_api()
     data_file = "trip_data.csv"
 
-    st.title("Trip Logger with Interactive Map and Optimal Temperature Analysis")
-
-    weather_data = get_weather(api_key)
-    if weather_data:
-        weather_description, temperature, humidity, wind_speed, last_updated = weather_data
-        st.markdown("## 🌤️ Current Weather for Sarasota County, FL")
-        st.write(f"Weather: {weather_description}")
-        st.write(f"🌡️ Temperature: {temperature}°F")
-        st.write(f"💧 Humidity: {humidity}%")
-        st.write(f"🌬️ Wind Speed: {wind_speed} mph")
-        st.write(f"**Last Updated:** {last_updated}")
-    else:
-        st.error("Could not retrieve weather data.")
+   
 
     existing_data = initialize_data(data_file)
     st.subheader("Interactive Map")
