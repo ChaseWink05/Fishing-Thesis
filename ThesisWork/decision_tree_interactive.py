@@ -1,4 +1,3 @@
-
 from plotly import graph_objects as go
 import plotly.express as px
 import pandas as pd
@@ -39,8 +38,13 @@ def run():
     # Calculate R-squared score and Mean Squared Error
     r_squared = r2_score(y, y_pred)
     mse = mean_squared_error(y, y_pred)
-    st.write(r_squared)
-    st.write(mse)
+    st.write(f"R-squared: {r_squared}")
+    st.write(f"Mean Squared Error: {mse}")
+
+    # Predict the weight of a fish when the length is 50mm
+    predicted_weight = regressor.predict([[50]])
+    st.write(f"Predicted weight for length 50mm: {predicted_weight[0]}")
+
     # Create a high-resolution grid of lengths for visualization
     X_grid = np.arange(min(X), max(X), 0.1).reshape(-1, 1)
 
@@ -76,10 +80,3 @@ def run():
 
     # Display the interactive plot in Streamlit
     st.plotly_chart(fig)
-    st.write(f"R-squared: {r_squared}")
-    st.write(f"Mean Squared Error: {mse}")
-
-    # Predict the weight of a fish when the length is 50mm
-    predicted_weight = regressor.predict([[50]])
-    st.write(f"Predicted weight for length 50mm: {predicted_weight[0]}")
-
