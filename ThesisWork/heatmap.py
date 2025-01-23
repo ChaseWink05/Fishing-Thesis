@@ -1,33 +1,51 @@
 import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
-from matplotlib.colors import LinearSegmentedColormap
+import plotly.graph_objects as go
+import streamlit as st
+import os
 
-# Load the dataset
-file_path = r'C:\Users\c.wink27\Downloads\ps_2023_csv\catch_20236.csv'
-fish_data = pd.read_csv(file_path)
+def run():
+    # Define the path to the CSV file in the GitHub/Streamlit environment
+    destination_file = os.path.join('ThesisWork', 'catch_20236.csv')
 
-# Fill missing species names
-fish_data['common'] = fish_data['common'].fillna('Unknown')
+    # Check if the file exists
+    if not os.path.exists(destination_file):
+        st.error(f"Error: The file 'catch_20236.csv' is missing in the 'ThesisWork' folder.")
+        st.write("Please make sure the CSV file is placed in the 'ThesisWork' folder and try again.")
+    else:
+        # If the file exists, read the CSV data
+        fish_data = pd.read_csv(destination_file)
 
-# Filter rows with positive and reasonable values for tot_len_a and wgt_a
-fish_data = fish_data[(fish_data['tot_len_a'] > 0) & (fish_data['wgt_a'] > 0)]
+    # Fill missing species names
+    fish_data['common'] = fish_data['common'].fillna('Unknown')
 
-# Calculate the correlation matrix (only using numeric columns)
-corr_df = fish_data[['tot_len_a', 'wgt_a']].corr()
+    # Filter rows with positive and reasonable values for tot_len_a and wgt_a
+    fish_data = fish_data[(fish_data['tot_len_a'] > 0) & (fish_data['wgt_a'] > 0)]
 
-# Define the custom colormap
-colors = ["#4361EE", "#FFFFFF", "#B40051"]  # Blue, White, Magenta
-cmap = LinearSegmentedColormap.from_list("custom_cmap", colors)
+    # Calculate the weight-to-length ratio
+    fish_data['weight_length_ratio'] = fish_data['wgt_a'] / fish_data['tot_len_a']
 
-# Plotting the heatmap of the correlation matrix
-plt.figure(figsize=(8, 8))
-sns.heatmap(corr_df, cmap=cmap, center=0, vmin=-1, annot=True, linewidths=0.5)
+    # Calculate the correlation matrix (including the new variable)
+    corr_df = fish_data[['tot_len_a', 'wgt_a', 'weight_length_ratio']].corr()
 
-# Add titles and axis labels
-plt.title("Correlation Heatmap of Fish Length and Weight (Filtered)", fontsize=16)
-plt.xlabel("Variables", fontsize=14)
-plt.ylabel("Variables", fontsize=14)
+    # Create a Plotly heatmap
+    fig = go.Figure(data=go.Heatmap(
+        z=corr_df.values,
+        x=corr_df.columns,
+        y=corr_df.columns,
+        colorscale='RdBu',
+        colorbar=dict(title='Correlation'),
+        zmin=-1,
+        zmax=1
+    ))
 
-# Display the plot
-plt.show()
+    # Add titles and axis labels
+    fig.update_layout(
+        title="Correlation Heatmap of Fish Length, Weight, and Weight-to-Length Ratio (Filtered)",
+        xaxis_title="Variables",
+        yaxis_title="Variables",
+        template="plotly_dark"
+    )
+
+    # Display the heatmap in Streamlit
+    st.title('Fish Data Analysis')
+    st.plotly_chart(fig)

@@ -15,6 +15,7 @@ import plotly.express as px
 import optimum_temp
 import weather_api as wapi
 import top_20_species_interactive
+import heatmap
 
 
 #This segment checks if Streamlit is already running. If it's not, it sets an environment variable called
@@ -265,6 +266,7 @@ def main():
 
     most_occuring_species.run()
     top_20_species_interactive.display()
+    heatmap.run()
     
 
 if __name__ == "__main__":
