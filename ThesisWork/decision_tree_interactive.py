@@ -39,8 +39,8 @@ def run():
     # Calculate R-squared score and Mean Squared Error
     r_squared = r2_score(y, y_pred)
     mse = mean_squared_error(y, y_pred)
-
-
+    st.write(r_squared)
+    st.write(mse)
     # Create a high-resolution grid of lengths for visualization
     X_grid = np.arange(min(X), max(X), 0.1).reshape(-1, 1)
 
