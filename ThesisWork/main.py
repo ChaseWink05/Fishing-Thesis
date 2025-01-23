@@ -271,6 +271,7 @@ def main():
     """)
     st.title("5 Most Occuring Species Cluster")
     top5_occuring_species.run()
+    st.title("20 Most Occuring Species Bar Graph")
     top_20_species_interactive.display()
     heatmap.run()
     
