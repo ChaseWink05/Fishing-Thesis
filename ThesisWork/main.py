@@ -272,6 +272,7 @@ def main():
     top5_occuring_species.run()
     top_20_species_interactive.display()
     heatmap.run()
+    st.title("K-Means Cluster")
     
     
 
