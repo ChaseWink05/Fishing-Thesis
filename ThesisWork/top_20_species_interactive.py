@@ -54,3 +54,8 @@ def display():
 
     # Display the Plotly chart in the Streamlit app
     st.plotly_chart(fig)
+    # Display the explanation underneath the heatmap
+    st.markdown("""
+    This bar chart shows the top 20 most commonly occurring fish species in the dataset. The height of each bar represents the number of times each species appears. This interactive chart allows you to explore the distribution of fish species, making it easy to identify the most frequent species in the dataset.
+    """)
+
