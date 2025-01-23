@@ -43,4 +43,9 @@ def run():
 
     # Show the interactive plot in Streamlit
     st.plotly_chart(fig) 
+    # Display the explanation underneath the heatmap
+    st.markdown("""
+    This scatter plot visualizes the relationship between the total length and weight of the five most common fish species in the dataset. Each point represents a fish, with its color indicating the species. This interactive plot allows you to explore how different species vary in terms of size and weight, making it easier to identify patterns or clusters based on these two characteristics.
+    """)
+
     
