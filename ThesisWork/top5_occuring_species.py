@@ -41,6 +41,7 @@ def run():
                      title="Clustering of Fish Data by Species (Excluding Unknown)",
                      category_orders={'common': top_species})  # Limit legend to top species
     
+    st.title("5 Most Occuring Species Cluster")
     # Show the interactive plot in Streamlit
     st.plotly_chart(fig) 
     # Display the explanation underneath the heatmap
