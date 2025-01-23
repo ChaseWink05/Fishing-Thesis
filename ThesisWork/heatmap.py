@@ -47,7 +47,7 @@ def run():
     )
 
     # Display the heatmap in Streamlit
-    st.title('Fish Data Analysis')
+    st.title('Heat Map Correlation')
     st.plotly_chart(fig)
     # Display the explanation underneath the heatmap
     st.markdown("""
