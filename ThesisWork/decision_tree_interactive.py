@@ -34,10 +34,9 @@ def run():
 
     # Predict the fish weights (y_pred) based on the trained model
     y_pred = regressor.predict(X)
-
-    # Calculate R-squared score and Mean Squared Error
-    r_squared = r2_score(y, y_pred)
     mse = mean_squared_error(y, y_pred)
+    r_squared = r2_score(y, y_pred)
+
     st.write(f"R-squared: {r_squared}")
     st.write(f"Mean Squared Error: {mse}")
 
