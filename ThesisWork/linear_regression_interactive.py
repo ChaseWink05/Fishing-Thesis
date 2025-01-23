@@ -1,12 +1,11 @@
 
 import pandas as pd
 import statsmodels.api as sm
-import matplotlib.pyplot as plt
 import streamlit as st
 import os
 import plotly.express as px
 from plotly import graph_objects as go
-from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.metrics import mean_squared_error
 
 
 def run():
