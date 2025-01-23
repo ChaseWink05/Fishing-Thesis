@@ -263,6 +263,14 @@ def main():
         
         st.markdown("### Decision Tree Regression")
         decision_tree.run()  
+    
+    # Display the explanation underneath the heatmap
+    st.markdown("""
+    Linear regression is a statistical method used to understand the relationship between two variables by fitting a straight line to the data. In this case, we're using fish length (tot_len_a) to predict fish weight (wgt_a). The red line in the plot represents the linear regression line, showing the general trend of how weight increases with length. It helps us understand the average behavior of the data, assuming a linear relationship.
+    A decision tree regressor is a machine learning model that makes predictions by splitting the data into segments based on feature values. It works by creating a tree-like structure, where each decision point leads to a prediction. In this case, the decision tree predicts fish weight based on length, but instead of a straight line, it creates a series of decision points (splits) that better fit the data, especially when relationships are non-linear. The predicted curve in the plot is the result of the decision tree's predictions.
+    I have placed the linear regression and decision tree regressor side by side to allow you to compare two different approaches to prediction. The linear regression gives a simple, straight-line estimate, while the decision tree captures more complex, non-linear patterns in the data. This comparison helps demonstrate how these models approach the same problem differently and allows you to choose the best method based on the data's behavior.
+    """)
+
 
     most_occuring_species.run()
     top_20_species_interactive.display()
