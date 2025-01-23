@@ -34,14 +34,11 @@ def run():
 
     # Predict the fish weights (y_pred) based on the trained model and input data X
     y_pred = regressor.predict(X)
-
-    # Calculate the R-squared score which is how well the model's predictions match the actual data
-    r_squared = r2_score(y, y_pred)
-    print(f"R-squared: {r_squared}")  # Output the R-squared score
-
-    # Calculate Mean Squared Error, which measures the average squared difference between predicted and actual values
     mse = mean_squared_error(y, y_pred)
-    print(f"Mean Squared Error: {mse}")  # Output the Mean Squared Error value
+    r_squared = r2_score(y, y_pred)
+
+    st.write(f"R-squared: {r_squared}")
+    st.write(f"Mean Squared Error: {mse}")
 
     # Predict the weight of a fish when the length is 50mm
     predicted_weight = regressor.predict([[50]])  # Predict for length 50mm

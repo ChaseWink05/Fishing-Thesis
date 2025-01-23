@@ -6,6 +6,7 @@ import streamlit as st
 import os
 import plotly.express as px
 from plotly import graph_objects as go
+from sklearn.metrics import mean_squared_error, r2_score
 
 
 # Loading the dataset
@@ -33,8 +34,18 @@ def run():
     # Fit the linear regression model
     model = sm.OLS(y, X).fit()
 
+     # Extract predictions and performance metrics
+    filtered_data['predicted_wgt'] = model.predict(X)
+    mse = mean_squared_error(y, filtered_data['predicted_wgt'])
+    r_squared = model.rsquared  # R-squared from the statsmodels result
+    
+    # Display metrics
+    st.write(f"Linear Regression Metrics")
+    st.write(f"R-squared: {r_squared}")
+    st.write(f"Mean Squared Error: {mse}")
+
     # Print the regression results summary
-    print(model.summary())
+    #print(model.summary())
 
     fig, ax = plt.subplots(figsize=(8, 6))
     ax.scatter(filtered_data['tot_len_a'], filtered_data['wgt_a'], alpha=0.7, label='Data Points')
