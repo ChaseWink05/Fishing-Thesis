@@ -10,7 +10,7 @@ import requests
 import statsmodels.api as sm
 import linear_regression
 import decision_tree
-import most_occuring_species
+import top5_occuring_species 
 import plotly.express as px
 import optimum_temp
 import weather_api as wapi
@@ -270,8 +270,7 @@ def main():
     A decision tree regressor is a machine learning model that makes predictions by splitting the data into segments based on feature values. It works by creating a tree-like structure, where each decision point leads to a prediction. In this case, the decision tree predicts fish weight based on length, but instead of a straight line, it creates a series of decision points that better fit the data, especially when relationships are non-linear. The predicted curve in the plot is the result of the decision tree's predictions. Something to note is that mean squared error (MSE) measures how far off the model's predictions are from the actual values, the lower MSE means better accuracy. R-squared tells you how much of the variation in the data is explained by the model, values closer to 1 mean a better fit, and values closer to 0 mean the model does not  explain much. I have placed the linear regression and decision tree regressor side by side to allow you to compare two different approaches to prediction. The linear regression gives a simple, straight-line estimate, while the decision tree captures more complex, non-linear patterns in the data. Looking at the r value and mean squared value for the linear regression we can determine that the relationship between fish length and weight, as modeled by the linear regression, is weak. The R-squared value of 0.28 means that only 28% of the variation in weight is explained by the length of the fish meaning that other factors might be influencing weight. The relatively high mean squared error (65.07) indicates that the model's predictions are not very accurate. This is why we are comparing it to the decision tree regressor which is more optimal for data that is not as linear. Looking at the decision tree regressor we see that with an R-squared value of 0.79, the decision tree explains about 79% of the variation in fish weight based on length, suggesting a much stronger relationship between the two variables. The mean squared error of 18.66 indicates more accurate predictions compared to the linear model, meaning the decision tree provides a better fit for the data which is why I displayed them side by side for comparison. 
     """)
 
-
-    most_occuring_species.run()
+    top5_occuring_species.run()
     top_20_species_interactive.display()
     heatmap.run()
     
