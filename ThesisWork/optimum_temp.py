@@ -54,3 +54,8 @@ def display_bar_chart():
     else:
         # Show an error if the necessary columns are missing
         st.error("The CSV file does not have the expected columns: 'Species' and 'Temperature Range Preferendum'.")
+
+    st.markdown(""" 
+        This bar chart displays the preferred temperature ranges for various fish species, showing the optimal conditions each species tends to favor. The data is sourced from The Scientific Fisherman (https://thescientificfisherman.com/) and authored by Mark C. Biesinger, a scientist specializing in X-ray photoelectron spectroscopy and surface analysis techniques. The chart helps visualize the temperature preferences that support the best living conditions for these species.
+        """)
+
