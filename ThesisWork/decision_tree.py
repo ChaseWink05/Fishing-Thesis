@@ -36,7 +36,7 @@ def run():
     y_pred = regressor.predict(X)
     mse = mean_squared_error(y, y_pred)
     r_squared = r2_score(y, y_pred)
-
+    st.write(f"Decision Tree Metrics")
     st.write(f"R-squared: {r_squared}")
     st.write(f"Mean Squared Error: {mse}")
 
