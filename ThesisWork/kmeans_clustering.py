@@ -3,41 +3,44 @@ import numpy as np
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import MinMaxScaler
 import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.preprocessing import StandardScaler
 
 # Load the dataset
 file_path = r'C:\Users\c.wink27\Downloads\ps_2023_csv\catch_20236.csv'
-catch_data = pd.read_csv(file_path)
+fish_data = pd.read_csv(file_path)
 
-# Filter for valid length and weight values
-filtered_data = catch_data[(catch_data['tot_len_a'] > 0) & (catch_data['wgt_a'] > 0)]
+# Fill missing species names
+fish_data['common'] = fish_data['common'].fillna('Unknown')
 
-# Select the features for clustering
-X = filtered_data[['tot_len_a', 'wgt_a']]
+# Filter rows with valid values for tot_len_a and wgt_a
+fish_data = fish_data[(fish_data['tot_len_a'] > 0) & (fish_data['wgt_a'] > 0)]
 
-# Scale the data
-scaler = MinMaxScaler()
+# Select only the columns for clustering
+X = fish_data[['tot_len_a', 'wgt_a']]
+
+# Normalize the data 
+scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
 
-# Apply K-Means clustering
-kmeans = KMeans(n_clusters=50, max_iter=100, random_state=42)
-y_kmeans = kmeans.fit_predict(X_scaled)
+# Perform K-means clustering
+k = 3  # Number of clusters
+kmeans = KMeans(n_clusters=k, random_state=42)
+fish_data['cluster'] = kmeans.fit_predict(X_scaled)
 
-# Transform the scaled data back to its original scale
-X_transformed = scaler.inverse_transform(X_scaled)
-
-# Create a DataFrame with the original scale data and cluster labels
-result = pd.DataFrame(X_transformed, columns=X.columns)
-result['Cluster'] = y_kmeans
-
-# Visualize the clusters
+# Plot the clusters
 plt.figure(figsize=(10, 6))
-for cluster in np.unique(result['Cluster']):
-    cluster_data = result[result['Cluster'] == cluster]
-    plt.scatter(cluster_data['tot_len_a'], cluster_data['wgt_a'], label=f'Cluster {cluster}')
-
-plt.xlabel('Total Length (mm)')
-plt.ylabel('Weight (kg)')
-plt.title('K-Means Clustering of Fish (Length vs. Weight)')
-plt.legend()
+sns.scatterplot(
+    x=fish_data['tot_len_a'],
+    y=fish_data['wgt_a'],
+    hue=fish_data['cluster'],
+    palette='viridis',
+    style=fish_data['cluster'],
+    s=100
+)
+plt.title('K-means Clustering (Length vs Weight)', fontsize=16)
+plt.xlabel('Fish Length (tot_len_a)', fontsize=14)
+plt.ylabel('Fish Weight (wgt_a)', fontsize=14)
+plt.legend(title='Cluster', fontsize=12)
 plt.grid(True)
 plt.show()
