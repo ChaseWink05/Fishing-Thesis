@@ -22,7 +22,7 @@ def run():
     fish_data = fish_data[(fish_data['tot_len_a'] > 0) & (fish_data['wgt_a'] > 0)]
 
     # Calculate the weight-to-length ratio
-    fish_data['weight_length_ratio'] = fish_data['tot_len_a'] / fish_data['wgt_a'] 
+    fish_data['weight_length_ratio'] =  fish_data['wgt_a'] / fish_data['tot_len_a']
 
     # Calculate the correlation matrix (including the new variable)
     corr_df = fish_data[['tot_len_a', 'wgt_a', 'weight_length_ratio']].corr()
