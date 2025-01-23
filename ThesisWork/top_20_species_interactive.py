@@ -51,7 +51,7 @@ def display():
         template="plotly_white",
         font=dict(size=30)
     )
-
+    st.title("TOP 20 RAAA")
     # Display the Plotly chart in the Streamlit app
     st.plotly_chart(fig)
     # Display the explanation underneath the heatmap
