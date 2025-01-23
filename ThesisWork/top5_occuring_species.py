@@ -40,7 +40,7 @@ def run():
                      labels={'tot_len_a': 'Total Length', 'wgt_a': 'Weight'},
                      title="Clustering of Fish Data by Species (Excluding Unknown)",
                      category_orders={'common': top_species})  # Limit legend to top species
-    st.title("Top 5 Occuring Species Cluster")
+    
     # Show the interactive plot in Streamlit
     st.plotly_chart(fig) 
     # Display the explanation underneath the heatmap
