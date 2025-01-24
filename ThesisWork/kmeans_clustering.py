@@ -17,7 +17,7 @@ def run():
         st.write("Please make sure the CSV file is placed in the 'ThesisWork' folder and try again.")
     else:
         # If the file exists, read the CSV data
-        catch_data = pd.read_csv(destination_file)
+        fish_data = pd.read_csv(destination_file)
 
     # Fill missing species names
     fish_data['common'] = fish_data['common'].fillna('Unknown')
