@@ -5,13 +5,10 @@ import pandas as pd
 import os
 import sys
 import re
-import matplotlib.pyplot as plt
 import requests
-import statsmodels.api as sm
 import linear_regression
 import decision_tree
 import top5_occuring_species 
-import plotly.express as px
 import optimum_temp
 import weather_api as wapi
 import top_20_species_interactive
@@ -261,7 +258,6 @@ def main():
         linear_regression.run()
 
     with col2:
-        
         st.markdown("### Decision Tree Regression")
         decision_tree.run()  
     
