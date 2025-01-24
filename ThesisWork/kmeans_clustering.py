@@ -5,11 +5,19 @@ from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 import plotly.express as px
 import streamlit as st
+import os 
 
 def run():
-    # Load the dataset
-    file_path = r'C:\Users\c.wink27\Downloads\ps_2023_csv\catch_20236.csv'
-    fish_data = pd.read_csv(file_path)
+   # Define the path to the CSV file in the GitHub/Streamlit environment
+    destination_file = os.path.join('ThesisWork', 'catch_20236.csv')
+
+    # Check if the file exists
+    if not os.path.exists(destination_file):
+        st.error(f"Error: The file 'catch_20236.csv' is missing in the 'ThesisWork' folder.")
+        st.write("Please make sure the CSV file is placed in the 'ThesisWork' folder and try again.")
+    else:
+        # If the file exists, read the CSV data
+        catch_data = pd.read_csv(destination_file)
 
     # Fill missing species names
     fish_data['common'] = fish_data['common'].fillna('Unknown')
@@ -53,7 +61,7 @@ def run():
         title_font_size=20,
         template='plotly_white'
     )
-    
+
     st.title("K-Means Cluster")
     # Show the interactive plot
     st.plotly_chart(fig)
