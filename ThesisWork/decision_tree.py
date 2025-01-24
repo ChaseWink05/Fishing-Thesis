@@ -34,8 +34,8 @@ def run():
 
     # Predict the fish weights (y_pred) based on the trained model and input data X
     y_pred = regressor.predict(X)
-    mse = mean_squared_error(y, y_pred)
-    r_squared = r2_score(y, y_pred)
+    mse = round(mean_squared_error(y, y_pred), 3)
+    r_squared = round(r2_score(y, y_pred), 3)
     st.write(f"Decision Tree Metrics")
     st.write(f"R-squared: {r_squared}")
     st.write(f"Mean Squared Error: {mse}")
