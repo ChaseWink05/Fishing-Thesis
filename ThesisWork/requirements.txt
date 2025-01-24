@@ -8,5 +8,7 @@ statsmodels
 numpy
 scikit-learn
 plotly
+KMeans
+StandardScaler
 
 
