@@ -34,13 +34,13 @@ def run():
 
      # Extract predictions and performance metrics
     filtered_data['predicted_wgt'] = model.predict(X)
-    mse = round(mean_squared_error(y, filtered_data['predicted_wgt']), 3)
-    r_squared = round(model.rsquared, 3)
+    mse = mean_squared_error(y, filtered_data['predicted_wgt'])
+    r_squared = model.rsquared  # R-squared from the statsmodels result
     
     # Display metrics
     st.write(f"Linear Regression Metrics")
-    st.write(f"R-squared: {r_squared}")
-    st.write(f"Mean Squared Error: {mse}")
+    st.write(f"R-squared: {r_squared:.3f}")
+    st.write(f"Mean Squared Error: {mse:.3f}")
 
     # Print the regression results summary
     #print(model.summary())

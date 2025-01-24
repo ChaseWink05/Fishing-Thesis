@@ -34,12 +34,12 @@ def run():
 
     # Predict the fish weights (y_pred) based on the trained model and input data X
     y_pred = regressor.predict(X)
-    mse = round(mean_squared_error(y, y_pred), 3)
-    r_squared = round(r2_score(y, y_pred), 3)
+    mse = mean_squared_error(y, y_pred)
+    r_squared = r2_score(y, y_pred)
     st.write(f"Decision Tree Metrics")
-    st.write(f"R-squared: {r_squared}")
-    st.write(f"Mean Squared Error: {mse}")
-
+    st.write(f"R-squared: {r_squared:.3f}")
+    st.write(f"Mean Squared Error: {mse:.3f}")
+    
     # Predict the weight of a fish when the length is 50mm
     predicted_weight = regressor.predict([[50]])  # Predict for length 50mm
     print(f"Predicted weight for length 50: {predicted_weight}")  # Output the predicted weight for 50mm length
