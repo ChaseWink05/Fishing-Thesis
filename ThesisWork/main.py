@@ -147,6 +147,7 @@ def setup_form_fields():
     if "form_reset" not in st.session_state:
         #Intially setting this to false so we can track
         st.session_state.form_reset = False
+        reset_form_fields()
     # if the form_reset bool is true then we execute this if statement 
     if st.session_state.form_reset:
         reset_form_fields()
@@ -269,7 +270,6 @@ def main():
     top_20_species_interactive.display()
     heatmap.run()
     kmeans_clustering.run()
-    
     
 
 if __name__ == "__main__":
