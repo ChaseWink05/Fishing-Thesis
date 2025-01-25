@@ -223,6 +223,26 @@ def handle_submission(existing_data, data_file):
     st.session_state.refresh = True
     st.rerun()
 
+# Function to delete an entry
+def delete_entry(existing_data_reset, data_file):
+    if len(existing_data_reset) == 0:
+        st.warning("No entries available to delete.")
+        return existing_data_reset
+
+    delete_id = st.number_input("Enter the ID of the entry to delete", min_value=1, max_value=len(existing_data_reset), step=1)
+
+    if st.button("Delete Entry"):
+        # Remove the selected entry
+        existing_data_reset = existing_data_reset[existing_data_reset["ID"] != delete_id].reset_index(drop=True)
+        # Reset the ID sequence
+        existing_data_reset["ID"] = range(1, len(existing_data_reset) + 1)
+        # Save the updated dataset
+        existing_data_reset.to_csv(data_file, index=False)
+        # Confirm deletion
+        st.success(f"Entry with ID {delete_id} deleted successfully!")
+        st.session_state.refresh = True  # Refresh app
+    return existing_data_reset
+
 
 def main():
     # Load weather data and initialize map
@@ -246,20 +266,10 @@ def main():
     if not existing_data.empty:
         st.subheader("Existing Trip Data")
         st.markdown(existing_data.reset_index(drop=True).to_html(index=False, escape=False), unsafe_allow_html=True)
-    existing_data_reset = existing_data.reset_index(drop=True)
-
-    delete_id = st.number_input("Enter the ID of the entry to delete", min_value=1, max_value=len(existing_data_reset), step=1)
-
-    if st.button("Delete Entry"):
-        # Remove the selected entry
-        existing_data_reset = existing_data_reset[existing_data_reset["ID"] != delete_id].reset_index(drop=True)
-        # Reset the ID sequence
-        existing_data_reset["ID"] = range(1, len(existing_data_reset) + 1)
-        # Save the updated dataset
-        existing_data_reset.to_csv(data_file, index=False)
-        # Confirm deletion
-        st.success(f"Entry with ID {delete_id} deleted successfully!")
-        st.session_state.refresh = True  # Refresh app
+    
+    # Delete entry section
+    st.subheader("Delete an Entry")
+    existing_data = delete_entry(existing_data, data_file)
 
     optimum_temp.display_bar_chart()
     st.title("Fish Length vs Weight Analysis")
