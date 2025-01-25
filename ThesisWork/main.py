@@ -137,8 +137,9 @@ def reset_form_fields():
     st.session_state.time = ""
     st.session_state.weather = ""
     st.session_state.fish_type = ""
-    st.session_state.weight = 0.0
     st.session_state.lure = ""
+    st.session_state.weight = 0.0
+    
     # Resetting the flag after resetting the fields
     st.session_state.form_reset = False
 
