@@ -240,7 +240,7 @@ def delete_entry(existing_data_reset, data_file):
         existing_data_reset.to_csv(data_file, index=False)
         # Confirm deletion
         st.success(f"Entry with ID {delete_id} deleted successfully!")
-        st.session_state.refresh = True  # Refresh app
+        st.experimental_rerun()  # Force Streamlit to rerun immediately
     return existing_data_reset
 
 
