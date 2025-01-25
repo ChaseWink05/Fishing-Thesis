@@ -224,7 +224,6 @@ def handle_submission(existing_data, data_file):
 
     
 
-
 def main():
     # Load weather data and initialize map
     api_key = "709d293f36ae43b0b1d212215250801"
@@ -247,9 +246,6 @@ def main():
     if not existing_data.empty:
         st.subheader("Existing Trip Data")
         st.markdown(existing_data.reset_index(drop=True).to_html(index=False, escape=False), unsafe_allow_html=True)
-
-    
-
 
     optimum_temp.display_bar_chart()
     st.title("Fish Length vs Weight Analysis")
