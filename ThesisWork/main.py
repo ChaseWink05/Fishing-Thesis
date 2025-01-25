@@ -247,6 +247,19 @@ def main():
         st.subheader("Existing Trip Data")
         st.markdown(existing_data.reset_index(drop=True).to_html(index=False, escape=False), unsafe_allow_html=True)
 
+    delete_id = st.number_input("Enter the ID of the entry to delete", min_value=1, max_value=len(existing_data_reset), step=1)
+
+    if st.button("Delete Entry"):
+        # Remove the selected entry
+        existing_data_reset = existing_data_reset[existing_data_reset["ID"] != delete_id].reset_index(drop=True)
+        # Reset the ID sequence
+        existing_data_reset["ID"] = range(1, len(existing_data_reset) + 1)
+        # Save the updated dataset
+        existing_data_reset.to_csv(data_file, index=False)
+        # Confirm deletion
+        st.success(f"Entry with ID {delete_id} deleted successfully!")
+        st.session_state.refresh = True  # Refresh app
+
     optimum_temp.display_bar_chart()
     st.title("Fish Length vs Weight Analysis")
 
