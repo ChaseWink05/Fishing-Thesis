@@ -246,6 +246,7 @@ def main():
     if not existing_data.empty:
         st.subheader("Existing Trip Data")
         st.markdown(existing_data.reset_index(drop=True).to_html(index=False, escape=False), unsafe_allow_html=True)
+    existing_data_reset = existing_data.reset_index(drop=True)
 
     delete_id = st.number_input("Enter the ID of the entry to delete", min_value=1, max_value=len(existing_data_reset), step=1)
 
