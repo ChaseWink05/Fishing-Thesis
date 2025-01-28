@@ -31,24 +31,6 @@ def ensure_streamlit_running():
         os.system(command)
         sys.exit()
 
-def get_weather(api_key):
-    latitude = 27.384781315287853
-    longitude = -82.55692362785341
-    url = f"http://api.weatherapi.com/v1/current.json?key={api_key}&q={latitude},{longitude}&aqi=no"
-
-    try:
-        response = requests.get(url)
-        data = response.json()
-        return (
-            data['current']['condition']['text'],
-            data['current']['temp_f'],
-            data['current']['humidity'],
-            data['current']['wind_mph'],
-            data['current']['last_updated']
-        )
-    except requests.exceptions.RequestException as e:
-        st.error(f"Error fetching weather data: {e}")
-        return None
 
 
 #This segement is trying to load data from a file called trip_data.csv. If the file exists, it reads the information
