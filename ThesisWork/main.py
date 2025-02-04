@@ -204,30 +204,32 @@ def handle_submission(existing_data, data_file):
     st.session_state.refresh = True
     st.rerun()
 
-# Function to delete an entry
 def delete_entry(existing_data_reset, data_file):
-    if len(existing_data_reset) == 0:
+    if existing_data_reset.empty:
         st.warning("No entries available to delete.")
         return existing_data_reset
 
     max_id = existing_data_reset["ID"].max()
+    min_id = existing_data_reset["ID"].min()
 
-    delete_id = st.number_input("Enter the ID of the entry to delete", min_value=1, max_value=len(existing_data_reset), step=1)
-    
-    if st.button("Delete Entry"):  # Only check if the button is clicked
+    delete_id = st.number_input("Enter the ID of the entry to delete", min_value=min_id, max_value=max_id, step=1)
+
+    if st.button("Delete Entry"):
+        # Ensure the entered ID exists in the dataset
         if delete_id not in existing_data_reset["ID"].values:
-            st.error(f"Invalid ID. Please enter a number between 1 and {max_id}.")
-        else:
-            # Remove the selected entry
-            existing_data_reset = existing_data_reset[existing_data_reset["ID"] != delete_id].reset_index(drop=True)
-            # Reset the ID sequence
-            existing_data_reset["ID"] = range(1, len(existing_data_reset) + 1)
-            # Save the updated dataset
-            existing_data_reset.to_csv(data_file, index=False)
-            # Confirm deletion
-            st.success(f"Entry with ID {delete_id} deleted successfully!")
-            st.session_state.refresh = True
-            st.rerun()
+            st.error(f"Invalid ID. Please enter a number between {min_id} and {max_id}.")
+            return existing_data_reset
+
+        # Remove the selected entry
+        existing_data_reset = existing_data_reset[existing_data_reset["ID"] != delete_id].reset_index(drop=True)
+        # Reset the ID sequence
+        existing_data_reset["ID"] = range(1, len(existing_data_reset) + 1)
+        # Save the updated dataset
+        existing_data_reset.to_csv(data_file, index=False)
+        # Confirm deletion
+        st.success(f"Entry with ID {delete_id} deleted successfully!")
+        st.session_state.refresh = True
+        st.rerun()
 
     return existing_data_reset
 
