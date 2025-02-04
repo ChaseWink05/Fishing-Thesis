@@ -205,30 +205,35 @@ def handle_submission(existing_data, data_file):
     st.rerun()
 
 def delete_entry(existing_data_reset, data_file):
-    if existing_data_reset.empty:
+    if len(existing_data_reset) == 0:
         st.warning("No entries available to delete.")
         return existing_data_reset
 
     max_id = existing_data_reset["ID"].max()
     min_id = existing_data_reset["ID"].min()
 
+    # User selects an ID to delete
     delete_id = st.number_input("Enter the ID of the entry to delete", min_value=min_id, max_value=max_id, step=1)
 
     if st.button("Delete Entry"):
-        # Ensure the entered ID exists in the dataset
+        # Check if ID exists
         if delete_id not in existing_data_reset["ID"].values:
-            st.error(f"Invalid ID. Please enter a number between {min_id} and {max_id}.")
+            st.error(f"Invalid ID. Please enter a valid number between {min_id} and {max_id}.")
             return existing_data_reset
 
-        # Remove the selected entry
+        # Remove the entry with the selected ID
         existing_data_reset = existing_data_reset[existing_data_reset["ID"] != delete_id].reset_index(drop=True)
-        # Reset the ID sequence
+
+        # Reassign IDs sequentially
         existing_data_reset["ID"] = range(1, len(existing_data_reset) + 1)
-        # Save the updated dataset
+
+        # Save back to CSV
         existing_data_reset.to_csv(data_file, index=False)
-        # Confirm deletion
+
+        # Show success message
         st.success(f"Entry with ID {delete_id} deleted successfully!")
-        
+        st.session_state.refresh = True
+        st.rerun()
 
     return existing_data_reset
 
