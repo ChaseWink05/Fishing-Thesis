@@ -212,17 +212,25 @@ def delete_entry(existing_data_reset, data_file):
 
     delete_id = st.number_input("Enter the ID of the entry to delete", min_value=1, max_value=len(existing_data_reset), step=1)
     
-    if st.button("Delete Entry"):
-        # Remove the selected entry
-        existing_data_reset = existing_data_reset[existing_data_reset["ID"] != delete_id].reset_index(drop=True)
-        # Reset the ID sequence
-        existing_data_reset["ID"] = range(1, len(existing_data_reset) + 1)
-        # Save the updated dataset
-        existing_data_reset.to_csv(data_file, index=False)
-        # Confirm deletion
-        st.success(f"Entry with ID {delete_id} deleted successfully!")
-        st.session_state.refresh = True
-        st.rerun()
+    # Check if the entered ID exists in the dataset
+    if delete_id in existing_data_reset["ID"].values:
+        if st.button("Delete Entry"):
+            # Remove the selected entry
+            existing_data_reset = existing_data_reset[existing_data_reset["ID"] != int(delete_id)].reset_index(drop=True)
+            
+            # Reset the ID sequence
+            existing_data_reset["ID"] = range(1, len(existing_data_reset) + 1)
+            
+            # Save the updated dataset
+            existing_data_reset.to_csv(data_file, index=False)
+            
+            # Confirm deletion
+            st.success(f"Entry with ID {delete_id} deleted successfully!")
+            st.session_state.refresh = True
+            st.rerun()
+    else:
+        st.error(f"ID {delete_id} does not exist. Please enter a valid ID.")
+
     return existing_data_reset
 
 
