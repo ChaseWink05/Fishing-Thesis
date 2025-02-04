@@ -211,11 +211,14 @@ def delete_entry(existing_data_reset, data_file):
         return existing_data_reset
 
     max_id = existing_data_reset["ID"].max()
+
     delete_id = st.number_input("Enter the ID of the entry to delete", min_value=1, max_value=len(existing_data_reset), step=1)
-    if delete_id not in existing_data_reset["ID"].values:
-            st.warning(f"Invalid ID. Please enter a number between 1 and {max_id}.")
-            return existing_data_reset
+    
     if st.button("Delete Entry"):
+        if delete_id not in existing_data_reset["ID"].values:
+            st.error(f"Invalid ID. Please enter a number between 1 and {max_id}.")
+            return existing_data_reset
+        
         # Remove the selected entry
         existing_data_reset = existing_data_reset[existing_data_reset["ID"] != delete_id].reset_index(drop=True)
         # Reset the ID sequence
@@ -226,7 +229,8 @@ def delete_entry(existing_data_reset, data_file):
         st.success(f"Entry with ID {delete_id} deleted successfully!")
         st.session_state.refresh = True
         st.rerun()
-        return existing_data_reset
+
+    return existing_data_reset
 
 
 def main():
