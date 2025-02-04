@@ -211,11 +211,6 @@ def delete_entry(existing_data_reset, data_file):
         return existing_data_reset
 
     delete_id = st.number_input("Enter the ID of the entry to delete", min_value=1, max_value=len(existing_data_reset), step=1)
-
-    # Check if the entered ID exists in the dataset
-    if delete_id not in existing_data_reset["ID"].values:
-        st.error(f"ID {delete_id} does not exist.")
-        return existing_data_reset
     
     if st.button("Delete Entry"):
         # Remove the selected entry
