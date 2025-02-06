@@ -218,9 +218,12 @@ def delete_entry(existing_data_reset, data_file):
         # Check if the entered ID exists after clicking the button
         if delete_id in existing_ids:
             # Perform deletion
-            existing_data_reset = existing_data_reset[existing_data_reset["ID"] != delete_id]
+            existing_data_reset = existing_data_reset[existing_data_reset["ID"] != delete_id].reset_index(drop=True)
 
-            # Save without resetting IDs
+            # Auto-correct IDs to be sequential
+            existing_data_reset["ID"] = range(1, len(existing_data_reset) + 1)
+
+            # Save the updated dataset with corrected IDs
             existing_data_reset.to_csv(data_file, index=False)
 
             st.success(f"Entry with ID {delete_id} deleted successfully!")
@@ -231,6 +234,7 @@ def delete_entry(existing_data_reset, data_file):
             st.error(f"ID {delete_id} does not exist. Please enter a valid ID.")
 
     return existing_data_reset
+
 
 
 def main():
