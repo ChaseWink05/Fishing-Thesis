@@ -231,7 +231,7 @@ def delete_entry(existing_data_reset, data_file):
             st.rerun()
         else:
             # Display error after clicking delete if ID doesn't exist
-            st.error(f"ID {delete_id} does not exist. Please enter a valid ID.")
+            st.error(f"ID {delete_id} does not exist in the current data. Please enter a valid ID.")
 
     return existing_data_reset
 
