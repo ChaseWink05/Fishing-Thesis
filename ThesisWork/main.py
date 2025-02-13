@@ -257,8 +257,8 @@ def main():
         handle_submission(existing_data, data_file)
 
     if not existing_data.empty:
-        st.subheader("Existing Trip Data Chart")
-        st.line_chart(existing_data)
+        st.subheader("Existing Trip Data")
+        st.markdown(existing_data.reset_index(drop=True).to_html(index=False, escape=False), unsafe_allow_html=True)
     
     # Delete entry section
     st.subheader("Delete an Entry")
