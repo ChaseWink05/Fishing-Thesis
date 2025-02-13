@@ -1,7 +1,7 @@
 import os
 import streamlit as st
 import pandas as pd
-from plotly import graph_objects as go
+import plotly.express as px  # Import plotly express
 
 # Bar graph functionality
 def display_bar_chart():
@@ -26,27 +26,19 @@ def display_bar_chart():
         st.subheader("Temperature Range Preferendum for Species")
         st.dataframe(df)
 
-        # Create an interactive bar chart using Plotly
-        fig = go.Figure()
-
-        # Add bar trace
-        fig.add_trace(go.Bar(
-            x=df["Species"],
-            y=df["Temperature Range Preferendum"],
-            marker_color='skyblue',
-            text=df["Temperature Range Preferendum"],
-            textposition='auto',
-            name="Temperature Range"
-        ))
-
-        # Update the layout for better presentation
-        fig.update_layout(
+        # Create an interactive bar chart using Plotly Express
+        fig = px.bar(
+            df, 
+            x="Species", 
+            y="Temperature Range Preferendum",
+            text="Temperature Range Preferendum",
             title="Temperature Range Preferendum by Species",
-            xaxis_title="Species",
-            yaxis_title="Temperature Range Preferendum (°F)",
-            template="plotly_white",
-            xaxis=dict(tickangle=45)  # Rotate x-axis labels
+            labels={"Species": "Species", "Temperature Range Preferendum": "Temperature Range Preferendum (°F)"},
+            color_discrete_sequence=["skyblue"]
         )
+
+        # Rotate x-axis labels for better readability
+        fig.update_layout(xaxis_tickangle=45)
 
         # Display the Plotly chart in the Streamlit app
         st.plotly_chart(fig)
