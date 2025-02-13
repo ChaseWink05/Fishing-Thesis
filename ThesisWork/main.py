@@ -258,7 +258,8 @@ def main():
 
     if not existing_data.empty:
         st.subheader("Existing Trip Data Chart")
-        st.line_chart(existing_data)
+        st.dataframe(existing_data)
+
     
     # Delete entry section
     st.subheader("Delete an Entry")
