@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 import streamlit as st
-from plotly import graph_objects as go
+import plotly.express as px  # Using Plotly Express instead of graph_objects
 
 def display():
     # Define the path to the CSV file in the GitHub/Streamlit environment
@@ -25,37 +25,27 @@ def display():
     # Get the top 20 species with the highest counts
     top_20_species = species_counts.head(20)
 
-    # Extract species names and counts for plotting
-    species_names = top_20_species.index.tolist()
-    species_counts = top_20_species.values.tolist()
-
-    # Create an interactive bar chart using Plotly
-    fig = go.Figure()
-
-    # Add a bar trace
-    fig.add_trace(go.Bar(
-        x=species_names,
-        y=species_counts,
-        marker_color='skyblue',
-        text=species_counts,
-        textposition='auto',
-        name="Species Counts"
-    ))
+    # Create a bar chart using Plotly Express
+    fig = px.bar(
+        x=top_20_species.index,
+        y=top_20_species.values,
+        labels={'x': 'Species', 'y': 'Count'},
+        title="Top 20 Most Occurring Fish Species",
+        text=top_20_species.values,
+        color_discrete_sequence=['skyblue']
+    )
 
     # Update layout for better visualization
     fig.update_layout(
-        title="Top 20 Most Occurring Fish Species",
-        xaxis_title="Species",
-        yaxis_title="Count",
         xaxis=dict(tickangle=90),
         template="plotly_white",
         font=dict(size=30)
     )
-    st.title("20 Most Occuring Species Bar Graph")
+
+    st.title("20 Most Occurring Species Bar Graph")
     # Display the Plotly chart in the Streamlit app
     st.plotly_chart(fig)
-    # Display the explanation underneath the heatmap
+    # Display the explanation underneath the graph
     st.markdown("""
     This bar chart shows the top 20 most commonly occurring fish species in the dataset. The height of each bar represents the number of times each species appears. This interactive chart allows you to explore the distribution of fish species, making it easy to identify the most frequent species in the dataset.
     """)
-
