@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 import streamlit as st
-import plotly.express as px  # Using Plotly Express instead of graph_objects
+import plotly.express as px  
 
 def display():
     # Define the path to the CSV file in the GitHub/Streamlit environment
