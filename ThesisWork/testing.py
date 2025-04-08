@@ -25,7 +25,7 @@ if __name__ == "__main__":
         os.system(command)
         sys.exit()
 
-# Your WeatherAPI key
+
 api_key = "709d293f36ae43b0b1d212215250801"
 
 # Function to get weather data from WeatherAPI.com
