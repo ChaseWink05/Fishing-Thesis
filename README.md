@@ -74,3 +74,4 @@ Wink, Chase. Outdoor Analytics: Tracking and Optimizing Fishing Through a Digita
 🙏 Acknowledgments
 Special thanks to Dr. Tania Roy for her invaluable guidance, and to my family and mentors who supported me throughout this journey.
 
+App URl: https://thesisworkfishingoptimization.streamlit.app/
