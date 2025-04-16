@@ -41,30 +41,45 @@ def run():
     # Perform K-means clustering
     # The number of clusters is set to 4, so we group the fish into 4 distinct clusters
     k = 4
-    kmeans = KMeans(n_clusters=k, max_iter=100, random_state=42)  # Random state ensures reproducibility
-    fish_data['cluster'] = kmeans.fit_predict(X_scaled)  # Assign each fish to a cluster
+    # Random state ensures reproducibility
+    kmeans = KMeans(n_clusters=k, max_iter=100, random_state=42)  
+    # Assign each fish to a cluster
+    fish_data['cluster'] = kmeans.fit_predict(X_scaled)  
 
     # Visualize the clusters using Plotly: Length vs Weight
     # Create an interactive scatter plot where each fish's length is plotted on the x-axis and weight on the y-axis
     fig = px.scatter(
         fish_data,
-        x='tot_len_a',  # Length on the x-axis
-        y='wgt_a',  # Weight on the y-axis
-        color='cluster',  # Color points by the cluster they belong to
-        title='K-means Clustering (Length vs Weight)',  # Set the title of the plot
-        labels={'tot_len_a': 'Fish Length (tot_len_a)', 'wgt_a': 'Fish Weight (wgt_a)'},  # Axis labels
-        color_continuous_scale='Viridis',  # Color scale for the clusters
-        hover_data=['length_to_weight_ratio']  # Show length-to-weight ratio when hovering over each point
+         # Length on the x-axis
+        x='tot_len_a', 
+        # Weight on the y-axis
+        y='wgt_a',  
+        # Color points by the cluster they belong to
+        color='cluster',  
+         # Set the title of the plot
+        title='K-means Clustering (Length vs Weight)', 
+        # Axis labels
+        labels={'tot_len_a': 'Fish Length (tot_len_a)', 'wgt_a': 'Fish Weight (wgt_a)'},  
+        # Color scale for the clusters
+        color_continuous_scale='Viridis', 
+        # Show length-to-weight ratio when hovering over each point 
+        hover_data=['length_to_weight_ratio']  
     )
 
     # Customize the plot layout
-    fig.update_traces(marker=dict(size=10, line=dict(width=1, color='DarkSlateGrey')))  # Set marker size and border color
+    # Set marker size and border color
+    fig.update_traces(marker=dict(size=10, line=dict(width=1, color='DarkSlateGrey')))  
     fig.update_layout(
-        xaxis_title='Fish Length (tot_len_a)',  # x-axis title
-        yaxis_title='Fish Weight (wgt_a)',  # y-axis title
-        legend_title='Cluster',  # Legend title for clusters
-        title_font_size=20,  # Set the font size for the title
-        template='plotly_white'  # Set the layout template for a clean white background
+         # x-axis title
+        xaxis_title='Fish Length (tot_len_a)', 
+        # y-axis title
+        yaxis_title='Fish Weight (wgt_a)', 
+        # Legend title for clusters 
+        legend_title='Cluster',  
+        #Set the font size for the title
+        title_font_size=20, 
+        # Set the layout template for a clean white background 
+        template='plotly_white'  
     )
 
     # Display the title of the app
