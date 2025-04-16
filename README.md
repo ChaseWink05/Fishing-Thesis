@@ -61,7 +61,7 @@ To run locally:
 bash
 Copy
 Edit
-git clone https://github.com/your-username/outdoor-analytics.git
+git clone https://github.com/ChaseWink05/outdoor-analytics.git
 cd outdoor-analytics
 pip install -r requirements.txt
 streamlit run app.py
