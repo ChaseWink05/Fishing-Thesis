@@ -24,11 +24,13 @@ def run():
     filtered_data = catch_data[(catch_data['tot_len_a'] > 0) & (catch_data['wgt_a'] > 0)]  
     # Prepare the independent variable (X) and dependent variable (y)
     # 'tot_len_a' represents fish length reshaping as a column for the decsion tree
+    #X is reshaped into a 2D array because scikit-learn’s DecisionTreeRegressor requires the features in this format.
     X = filtered_data['tot_len_a'].values.reshape(-1, 1)  
     # 'wgt_a' represents fish weight
     y = filtered_data['wgt_a'].values  
 
     # Initialize the Decision Tree Regressor model with a maximum depth of 5
+    # Initializing the DecisionTreeRegressor with a maximum depth of 5 to prevent overfitting, fitting the model to the data.
     regressor = DecisionTreeRegressor(random_state=0, max_depth=5)
 
     # Fit the decision tree model to the training data X for input features and y for output labels
@@ -44,9 +46,9 @@ def run():
     
     # Predict the weight of a fish when the length is 50mm
     # Predict for length 50mm
-    predicted_weight = regressor.predict([[50]])  
+    #predicted_weight = regressor.predict([[50]])  
     # Output the predicted weight for 50mm length
-    print(f"Predicted weight for length 50: {predicted_weight}")  
+    #print(f"Predicted weight for length 50: {predicted_weight}")  
 
     # Create a high res grid of lengths for visualization 
     # Generates values from min(X) to max(X) with small steps (0.1)
