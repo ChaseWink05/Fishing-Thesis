@@ -20,11 +20,13 @@ def run():
 
     # Filter the data for valid rows: keeping only rows where both 'tot_len_a' and 'wgt_a' are greater than 0
     # This ensures we don't have invalid or missing values for length and weight
-    filtered_data = catch_data[(catch_data['tot_len_a'] > 0) & (catch_data['wgt_a'] > 0)]  # Filters valid data
-
+    # Filters valid data
+    filtered_data = catch_data[(catch_data['tot_len_a'] > 0) & (catch_data['wgt_a'] > 0)]  
     # Prepare the independent variable (X) and dependent variable (y)
-    X = filtered_data['tot_len_a'].values.reshape(-1, 1)  # 'tot_len_a' represents fish length reshaping as a column for the decsion tree
-    y = filtered_data['wgt_a'].values  # 'wgt_a' represents fish weight
+    # 'tot_len_a' represents fish length reshaping as a column for the decsion tree
+    X = filtered_data['tot_len_a'].values.reshape(-1, 1)  
+    # 'wgt_a' represents fish weight
+    y = filtered_data['wgt_a'].values  
 
     # Initialize the Decision Tree Regressor model with a maximum depth of 5
     regressor = DecisionTreeRegressor(random_state=0, max_depth=5)
@@ -41,11 +43,14 @@ def run():
     st.write(f"Mean Squared Error: {mse:.3f}")
     
     # Predict the weight of a fish when the length is 50mm
-    predicted_weight = regressor.predict([[50]])  # Predict for length 50mm
-    print(f"Predicted weight for length 50: {predicted_weight}")  # Output the predicted weight for 50mm length
+    # Predict for length 50mm
+    predicted_weight = regressor.predict([[50]])  
+    # Output the predicted weight for 50mm length
+    print(f"Predicted weight for length 50: {predicted_weight}")  
 
     # Create a high res grid of lengths for visualization 
-    X_grid = np.arange(min(X), max(X), 0.1).reshape(-1, 1)  # Generates values from min(X) to max(X) with small steps (0.1)
+    # Generates values from min(X) to max(X) with small steps (0.1)
+    X_grid = np.arange(min(X), max(X), 0.1).reshape(-1, 1) 
 
     # Create the plot
     fig, ax = plt.subplots(figsize=(8, 6))
