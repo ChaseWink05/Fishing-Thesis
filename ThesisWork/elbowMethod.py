@@ -31,7 +31,8 @@ X_scaled = scaler.fit_transform(X)
 # Custom function to calculate WSS (within-cluster sum of squares)
 # This function computes the sum of squared distances of points to their cluster centers
 def calculate_WSS(points, kmax):
-    sse = []  # List to store the WSS for each value of k
+    # List to store the WSS for each value of k
+    sse = []  
     for k in range(1, kmax + 1):
         # Fit K-Means with k clusters
         kmeans = KMeans(n_clusters=k, random_state=42).fit(points)
