@@ -205,25 +205,34 @@ def handle_submission(existing_data, data_file):
     st.rerun()
 
 def delete_entry(existing_data_reset, data_file):
+    # Check if the dataset is empty
     if existing_data_reset.empty:
+        # Display a warning message if there are no entries to delete
         st.warning("No entries available to delete.")
+        # Return the unchanged dataset
         return existing_data_reset
 
+    # Extract the list of existing IDs from the dataset
+    # Convert the "ID" column to integers and create a list of IDs
     existing_ids = existing_data_reset["ID"].astype(int).tolist()
 
-    # Using number_input for numeric input
+    # Create a numeric input field for the user to enter the ID of the entry to delete
+    # The minimum value is set to 1, and the step size is 1
     delete_id = st.number_input("Enter the ID of the entry to delete", min_value=1, step=1)
 
     if st.button("Delete Entry"):
         # Check if the entered ID exists after clicking the button
         if delete_id in existing_ids:
-            # Perform deletion
+            # Perform the deletion by filtering out the row with the specified ID
+            # Reset the index to ensure the DataFrame has a clean index after deletion
             existing_data_reset = existing_data_reset[existing_data_reset["ID"] != delete_id].reset_index(drop=True)
 
-            # Auto-correct IDs to be sequential
+            # Reassign IDs to ensure they remain sequential after deletion
+            # The "ID" column is updated to range from 1 to the new length of the dataset
             existing_data_reset["ID"] = range(1, len(existing_data_reset) + 1)
 
-            # Save the updated dataset with corrected IDs
+            # Save the updated dataset back to the CSV file
+            # This ensures the changes are persisted for future use
             existing_data_reset.to_csv(data_file, index=False)
 
             st.success(f"Entry with ID {delete_id} deleted successfully!")
@@ -232,7 +241,7 @@ def delete_entry(existing_data_reset, data_file):
         else:
             # Display error after clicking delete if ID doesn't exist
             st.error(f"ID {delete_id} does not exist in the current data. Please enter a valid ID.")
-
+    # Return the updated dataset (or the original dataset if no deletion occurred)
     return existing_data_reset
 
 
