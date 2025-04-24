@@ -24,7 +24,7 @@ def run():
     filtered_data = catch_data[(catch_data['tot_len_a'] > 0) & (catch_data['wgt_a'] > 0)]
 
     # Independent variable (X): Fish length ('tot_len_a')
-    # Add a constant term to the model to account for the intercept
+    # Add a constant term to the model to account for the intercept since data might not pass through orgin
     X = sm.add_constant(filtered_data['tot_len_a'])
 
     # Dependent variable (y): Fish weight ('wgt_a')
@@ -32,6 +32,9 @@ def run():
 
     # Fit the linear regression model using Ordinary Least Squares (OLS)
     # This creates a linear model that predicts 'wgt_a' based on 'tot_len_a'
+    #sm.OLS(y, X) creates an OLS regression model using the dependent variable (y, fish weight) and the independent variable (X, fish length with a constant term for the intercept).
+    #OLS is a statistical method that minimizes the sum of squared differences between the observed values (y) and the predicted values from the linear model.
+    #.fit() calculates the best-fit line that minimizes the residuals (differences between actual and predicted values).
     model = sm.OLS(y, X).fit()
 
     # Extract predictions and performance metrics

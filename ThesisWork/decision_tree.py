@@ -25,6 +25,7 @@ def run():
     # Prepare the independent variable (X) and dependent variable (y)
     # 'tot_len_a' represents fish length reshaping as a column for the decsion tree
     # X is reshaped into a 2D array because scikit-learn’s DecisionTreeRegressor requires the features in this format.
+    #.values makes it into a NumPy array, and reshape(-1, 1) converts it into a 2D array with one column.
     X = filtered_data['tot_len_a'].values.reshape(-1, 1)  
     # 'wgt_a' represents fish weight
     y = filtered_data['wgt_a'].values  
@@ -33,7 +34,9 @@ def run():
     # Initializing the DecisionTreeRegressor with a maximum depth of 5 to prevent overfitting, fitting the model to the data.
     regressor = DecisionTreeRegressor(random_state=0, max_depth=5)
 
-    # Fit the decision tree model to the training data X for input features and y for output labels
+    # The regressor.fit(X, y) trains the Decision Tree Regressor by analyzing the relationship between the input 
+    # feature (X, fish length) and the target variable (y, fish weight). It builds a tree structure to split the 
+    # data into regions, minimizing prediction error and enabling the model to make accurate predictions.
     regressor.fit(X, y)
 
     # Predict the fish weights (y_pred) based on the trained model and input data X

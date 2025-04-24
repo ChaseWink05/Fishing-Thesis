@@ -33,10 +33,12 @@ def run():
     # These are the columns that will be used to group the fish into clusters
     X = fish_data[['tot_len_a', 'wgt_a', 'length_to_weight_ratio']]
 
-    # Normalize the data before clustering
-    # This is necessary to bring all features to a similar scale
+    # Normalize the data for clustering
+    # StandardScaler standardizes features by scaling them to have a mean of 0 and a standard deviation of 1
     scaler = StandardScaler()
+    # fit_transform: Computes the mean and standard deviation for each feature in X and scales the data accordingly
     X_scaled = scaler.fit_transform(X)
+
 
     # Perform K-means clustering
     # The number of clusters is set to 4, so we group the fish into 4 distinct clusters

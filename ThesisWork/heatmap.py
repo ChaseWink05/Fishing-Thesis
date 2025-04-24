@@ -25,7 +25,7 @@ def run():
     # Calculate the weight-to-length ratio
     fish_data['weight_length_ratio'] = fish_data['wgt_a'] / fish_data['tot_len_a']
 
-    # Compute the correlation matrix
+    # Compute the correlation matrix using the person method
     corr_df = fish_data[['tot_len_a', 'wgt_a', 'weight_length_ratio']].corr()
 
     # Create a heatmap using Plotly Express

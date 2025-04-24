@@ -19,7 +19,7 @@ def display():
     # Replace empty rows (NaN values) in the 'common' column with the string 'NaN'
     df['common'] = df['common'].fillna('NaN')
 
-    # Count occurrences of each species in the 'common' column, excluding 'NaN'
+    # Count occurrences of each species in the 'common' column, excluding 'NaN' returns pandas series
     species_counts = df['common'].value_counts().drop('NaN', errors='ignore')
 
     # Get the top 20 species with the highest counts

@@ -24,8 +24,9 @@ fish_data['length_to_weight_ratio'] = fish_data['tot_len_a'] / fish_data['wgt_a'
 X = fish_data[['tot_len_a', 'wgt_a', 'length_to_weight_ratio']]
 
 # Normalize the data for clustering
-# StandardScaler ensures all features have a mean of 0 and standard deviation of 1
+# StandardScaler standardizes features by scaling them to have a mean of 0 and a standard deviation of 1
 scaler = StandardScaler()
+# fit_transform: Computes the mean and standard deviation for each feature in X and scales the data accordingly
 X_scaled = scaler.fit_transform(X)
 
 # Custom function to calculate WSS (within-cluster sum of squares)

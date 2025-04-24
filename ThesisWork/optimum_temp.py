@@ -17,7 +17,7 @@ def display_bar_chart():
     # Load the CSV file into a pandas DataFrame
     df = pd.read_csv(destination_file)
 
-    # Clean up column names by removing extra spaces
+    # Clean up column names by removing extra spaces removes any leading or trailing whitespace from each column name.
     df.columns = df.columns.str.strip()
 
     # Check if the required columns exist in the DataFrame
