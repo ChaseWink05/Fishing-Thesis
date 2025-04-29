@@ -272,6 +272,7 @@ def main():
     # Delete entry section
     st.subheader("Delete an Entry")
     existing_data = delete_entry(existing_data, data_file)
+    
     st.subheader("Dataset Overview")
     st.markdown("""
     The data used for all visualizations in this dashboard comes from the National Oceanic and Atmospheric Administration's (NOAA) Marine Recreational Information Program (MRIP). The dataset focuses on saltwater recreational fishing catches reported along the Atlantic Coast, Gulf of Mexico, and Pacific Coast of the United States during Wave 6 (November–December 2023). It includes variables such as total fish length (tot_len_a), total fish weight (wgt_a), and fishing mode (shore, private boat, or charter). This dataset helps reveal patterns in fish size and behavior across U.S. coastal waters.
