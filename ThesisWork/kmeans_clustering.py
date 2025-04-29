@@ -45,7 +45,11 @@ def run():
     k = 4
     # Random state ensures reproducibility
     kmeans = KMeans(n_clusters=k, max_iter=100, random_state=42)  
-    # Assign each fish to a cluster
+    # Perform clustering by assigning each fish to a cluster
+    # kmeans.fit_predict(X_scaled) does two things:
+    # 1. Fits the K-Means model to the scaled data (X_scaled), finding cluster centroids.
+    # 2. Predicts the cluster each data point belongs to, returning an array of cluster labels.
+    # The resulting cluster labels (e.g., 0, 1, 2, 3) are added as a new column ('cluster') in the fish_data DataFrame.
     fish_data['cluster'] = kmeans.fit_predict(X_scaled)  
 
     # Visualize the clusters using Plotly: Length vs Weight

@@ -2,7 +2,7 @@ import pandas as pd
 import statsmodels.api as sm  
 import matplotlib.pyplot as plt  
 import streamlit as st  
-import os  # For file and directory operations
+import os  
 from sklearn.metrics import mean_squared_error  # For calculating the mean squared error (MSE)
 
 # Main function to run the linear regression analysis
